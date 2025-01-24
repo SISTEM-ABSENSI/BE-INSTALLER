@@ -10,6 +10,7 @@ exports.attendanceHistorySchema = joi_1.default.object({
     attendanceHistoryId: joi_1.default.number().integer().positive().required(),
     attendanceHistoryUserId: joi_1.default.number().integer().positive().required(),
     attendanceHistoryTime: joi_1.default.string().isoDate().required(),
+    attendanceHistoryPhoto: joi_1.default.string().required(),
     attendanceHistoryCategory: joi_1.default.string()
         .valid('checkin', 'checkout', 'outside')
         .required()

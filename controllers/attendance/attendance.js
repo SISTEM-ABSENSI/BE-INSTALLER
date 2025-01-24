@@ -50,7 +50,8 @@ const attendance = async (req, res) => {
         const attendanceHistoryPayload = {
             attendanceHistoryTime: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss'),
             attendanceHistoryCategory: newStatus,
-            attendanceHistoryUserId: scheduleRecord.scheduleUserId
+            attendanceHistoryUserId: scheduleRecord.scheduleUserId,
+            attendanceHistoryPhoto: value.attendancePhoto
         };
         await attendanceHistoryModel_1.AttendanceHistoryModel.create(attendanceHistoryPayload);
         const response = response_1.ResponseData.success({

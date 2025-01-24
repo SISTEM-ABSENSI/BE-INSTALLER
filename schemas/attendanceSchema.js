@@ -8,7 +8,8 @@ const joi_1 = __importDefault(require("joi"));
 const jwtPayloadSchema_1 = require("./jwtPayloadSchema");
 exports.updateAttendanceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
-    attendanceId: joi_1.default.number().integer().positive().required()
+    attendanceId: joi_1.default.number().integer().positive().required(),
+    attendancePhoto: joi_1.default.string().required()
 });
 exports.findOneAttendanceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,

@@ -25,9 +25,9 @@ exports.UserModel = _1.sequelize.define('Users', {
         allowNull: false
     },
     userRole: {
-        type: sequelize_1.DataTypes.ENUM('admin', 'superAdmin', 'spg', 'supplier'),
+        type: sequelize_1.DataTypes.ENUM('admin', 'superAdmin', 'user'),
         allowNull: false,
-        defaultValue: 'spg'
+        defaultValue: 'user'
     },
     userDeviceId: {
         type: sequelize_1.DataTypes.STRING,

@@ -1,17 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersController = void 0;
-const find_1 = require("./find");
+exports.authController = void 0;
 const login_1 = require("./login");
 const register_1 = require("./register");
-const remove_1 = require("./remove");
-const update_1 = require("./update");
-exports.UsersController = {
+exports.authController = {
     login: login_1.userLogin,
-    register: register_1.userRegister,
-    findAll: find_1.findAllUser,
-    findOne: find_1.findOneUser,
-    update: update_1.updateUser,
-    updateSpg: update_1.updateUserSpg,
-    remove: remove_1.removeUser
+    register: register_1.userRegister
 };

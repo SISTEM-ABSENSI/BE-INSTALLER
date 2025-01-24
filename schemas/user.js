@@ -15,11 +15,10 @@ exports.userLoginSchema = joi_1.default.object({
 exports.userRegistrationSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
     userName: joi_1.default.string().required(),
-    userRole: joi_1.default.string().valid('admin', 'superAdmin', 'spg', 'supplier').required(),
+    userRole: joi_1.default.string().valid('admin', 'superAdmin', 'user').required(),
     userPassword: joi_1.default.string().min(6).required(),
     userDeviceId: joi_1.default.string().optional().allow(''),
-    userContact: joi_1.default.string().optional().allow(''),
-    userSupplierId: joi_1.default.number().optional()
+    userContact: joi_1.default.string().optional().allow('')
 });
 exports.findAllUsersSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -39,10 +38,9 @@ exports.userSchema = joi_1.default.object({
     userId: joi_1.default.string().required(),
     userName: joi_1.default.string().min(3).max(30).required(),
     userPassword: joi_1.default.string().min(6).max(128).required(),
-    userRole: joi_1.default.string().valid('admin', 'superAdmin', 'spg', 'supplier').required(),
+    userRole: joi_1.default.string().valid('admin', 'superAdmin', 'user').required(),
     userDeviceId: joi_1.default.string().optional(),
-    userContact: joi_1.default.string().optional(),
-    userSupplierId: joi_1.default.number().optional()
+    userContact: joi_1.default.string().optional()
 });
 exports.updateUserSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -50,9 +48,9 @@ exports.updateUserSchema = joi_1.default.object({
     userName: joi_1.default.string().allow('').min(3).max(30).optional(),
     userPassword: joi_1.default.string().allow('').min(6).max(128).optional(),
     userContact: joi_1.default.string().allow('').optional(),
-    userSupplierId: joi_1.default.number().optional(),
     userRole: joi_1.default.string()
         .allow('')
-        .valid('admin', 'superAdmin', 'spg', 'supplier')
+        .valid('admin', 'superAdmin', 'user')
+        .optional()
         .optional()
 });

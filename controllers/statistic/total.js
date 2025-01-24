@@ -14,19 +14,20 @@ const findTotal = async (req, res) => {
     try {
         const totalUsers = await user_1.UserModel.count({
             where: {
-                deleted: { [sequelize_1.Op.eq]: 0 }
+                deleted: { [sequelize_1.Op.eq]: 0 },
+                userRole: 'user'
             }
         });
-        const totalSuppliers = await user_1.UserModel.count({
+        const totalAdmins = await user_1.UserModel.count({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                userRole: 'supplier'
+                userRole: 'admin'
             }
         });
-        const totalSpg = await user_1.UserModel.count({
+        const totalSuperAdmins = await user_1.UserModel.count({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                userRole: 'spg'
+                userRole: 'superadmin'
             }
         });
         const totalStores = await storeModel_1.StoreModel.count({
@@ -36,9 +37,9 @@ const findTotal = async (req, res) => {
         });
         const response = response_1.ResponseData.success({
             totalUsers,
-            totalStores,
-            totalSpg,
-            totalSuppliers
+            totalAdmins,
+            totalSuperAdmins,
+            totalStores
         });
         logger_1.default.info('Store found successfully');
         return res.status(http_status_codes_1.StatusCodes.OK).json(response);

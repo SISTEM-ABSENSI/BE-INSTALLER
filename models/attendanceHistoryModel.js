@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AttendanceHistoryModel = void 0;
-/* eslint-disable @typescript-eslint/indent */
 const sequelize_1 = require("sequelize");
 const index_1 = require("./index");
 const zygote_1 = require("./zygote");
@@ -22,6 +21,10 @@ exports.AttendanceHistoryModel = index_1.sequelize.define('AttendanceHistory', {
     },
     attendanceHistoryCategory: {
         type: sequelize_1.DataTypes.ENUM('checkin', 'checkout', 'outside'),
+        allowNull: false
+    },
+    attendanceHistoryPhoto: {
+        type: sequelize_1.DataTypes.STRING,
         allowNull: false
     }
 }, {

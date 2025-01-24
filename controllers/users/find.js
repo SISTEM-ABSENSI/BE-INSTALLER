@@ -19,23 +19,21 @@ const findAllUser = async (req, res) => {
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
-    const { page: queryPage, size: querySize, search, pagination, userRole } = value;
+    const { page: queryPage, size: querySize, search, pagination } = value;
     try {
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
         const users = await user_1.UserModel.findAndCountAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
                 userId: { [sequelize_1.Op.not]: req.body?.jwtPayload?.userId },
-                userRole: { [sequelize_1.Op.not]: 'user' },
-                ...(Boolean(userRole) && {
-                    userRole: userRole
-                }),
+                userRole: 'user',
                 ...(Boolean(search) && {
                     [sequelize_1.Op.or]: [{ userName: { [sequelize_1.Op.like]: `%${search}%` } }]
                 })
             },
             attributes: [
                 'userId',
+                'userDeviceId',
                 'userName',
                 'userContact',
                 'userRole',
@@ -71,9 +69,17 @@ const findOneUser = async (req, res) => {
         const user = await user_1.UserModel.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                userId: { [sequelize_1.Op.eq]: userId }
+                userId: { [sequelize_1.Op.eq]: userId },
+                userRole: 'user'
             },
-            attributes: ['userId', 'userName', 'createdAt', 'updatedAt']
+            attributes: [
+                'userId',
+                'userName',
+                'userDeviceId',
+                'userContact',
+                'createdAt',
+                'updatedAt'
+            ]
         });
         if (user == null) {
             const message = 'User not found!';

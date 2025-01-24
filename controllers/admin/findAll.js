@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findOneUser = exports.findAllUser = void 0;
+exports.findOne = exports.findAll = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const sequelize_1 = require("sequelize");
 const validateRequest_1 = require("../../utilities/validateRequest");
@@ -12,7 +12,7 @@ const user_1 = require("../../models/user");
 const pagination_1 = require("../../utilities/pagination");
 const user_2 = require("../../schemas/user");
 const logger_1 = __importDefault(require("../../utilities/logger"));
-const findAllUser = async (req, res) => {
+const findAll = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(user_2.findAllUsersSchema, req.query);
     if (error != null) {
         const message = `Invalid query parameter! ${error.details.map((x) => x.message).join(', ')}`;
@@ -58,8 +58,8 @@ const findAllUser = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findAllUser = findAllUser;
-const findOneUser = async (req, res) => {
+exports.findAll = findAll;
+const findOne = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(user_2.findOneUserSchema, req.params);
     if (error != null) {
         const message = `Invalid request parameter! ${error.details.map((x) => x.message).join(', ')}`;
@@ -90,4 +90,4 @@ const findOneUser = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findOneUser = findOneUser;
+exports.findOne = findOne;

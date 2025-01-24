@@ -23,6 +23,7 @@ const findAllSchedule = async (req, res) => {
     try {
         const { page: queryPage, size: querySize, pagination, search, scheduleStatus, scheduleStatusNot } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
+        console.log(req.query);
         const result = await scheduleModel_1.ScheduleModel.findAndCountAll({
             where: {
                 deleted: 0,
@@ -32,7 +33,8 @@ const findAllSchedule = async (req, res) => {
                 ...(Boolean(search) && {
                     [sequelize_1.Op.or]: [{ scheduleName: { [sequelize_1.Op.like]: `%${search}%` } }]
                 }),
-                ...(Boolean(scheduleStatus) && {
+                ...(Boolean(scheduleStatus) &&
+                    scheduleStatus !== 'all' && {
                     scheduleStatus: scheduleStatus
                 }),
                 ...(Boolean(scheduleStatusNot) && {
