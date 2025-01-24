@@ -13,9 +13,6 @@ exports.UserModel = _1.sequelize.define('Users', {
         autoIncrement: true,
         primaryKey: true
     },
-    userSupplierId: {
-        type: sequelize_1.DataTypes.INTEGER
-    },
     userName: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
