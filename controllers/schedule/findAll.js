@@ -27,7 +27,7 @@ const findAllSchedule = async (req, res) => {
         const result = await scheduleModel_1.ScheduleModel.findAndCountAll({
             where: {
                 deleted: 0,
-                ...(Boolean(req.body?.jwtPayload?.userRole === 'spg') && {
+                ...(Boolean(req.body?.jwtPayload?.userRole === 'user') && {
                     scheduleUserId: req.body?.jwtPayload?.userId
                 }),
                 ...(Boolean(search) && {

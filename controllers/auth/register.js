@@ -33,18 +33,18 @@ const userRegister = async (req, res) => {
             logger_1.default.info(`Registration attempt failed: ${message}`);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
-        const existingDevice = await user_2.UserModel.findOne({
-            raw: true,
-            where: {
-                deleted: { [sequelize_1.Op.eq]: 0 },
-                userDeviceId: { [sequelize_1.Op.eq]: userDeviceId }
-            }
-        });
-        if (existingDevice != null) {
-            const message = `Device is already registered. Please use another one.`;
-            logger_1.default.info(`Registration attempt failed: ${message}`);
-            return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
-        }
+        // const existingDevice = await UserModel.findOne({
+        //   raw: true,
+        //   where: {
+        //     deleted: { [Op.eq]: 0 },
+        //     userDeviceId: { [Op.eq]: userDeviceId }
+        //   }
+        // })
+        // if (existingDevice != null) {
+        //   const message = `Device is already registered. Please use another one.`
+        //   logger.info(`Registration attempt failed: ${message}`)
+        //   return res.status(StatusCodes.BAD_REQUEST).json(ResponseData.error(message))
+        // }
         const hashedPassword = (0, scure_password_1.hashPassword)(userPassword);
         const newUser = {
             ...value,

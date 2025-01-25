@@ -19,15 +19,14 @@ const findAll = async (req, res) => {
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
-    console.log('______________#####__________');
-    console.log(value);
-    console.log('______________#####__________');
     try {
         const { page: queryPage, size: querySize, pagination, startDate, endDate, search } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
         const whereConditions = {
             deleted: 0,
-            attendanceHistoryUserId: value.attendanceHistoryUserId
+            ...(Boolean(req.body?.jwtPayload?.userRole === 'user') && {
+                attendanceHistoryUserId: req.body?.jwtPayload?.userId
+            })
         };
         if (startDate && endDate) {
             whereConditions.attendanceHistoryTime = {

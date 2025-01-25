@@ -21,14 +21,17 @@ const updateMyProfile = async (req, res) => {
                 .digest('hex');
         }
         const newData = {
-            ...(requestBody.userName.length > 0 && {
-                userName: requestBody.userName
+            ...(requestBody?.userName?.length > 0 && {
+                userName: requestBody?.userName
             }),
-            ...(requestBody.userPassword.length > 0 && {
-                userPassword: requestBody.userPassword
+            ...(requestBody?.userPassword?.length > 0 && {
+                userPassword: requestBody?.userPassword
             }),
-            ...(requestBody.userRole.length > 0 && {
-                userRole: requestBody.userRole
+            ...(requestBody?.userRole?.length > 0 && {
+                userRole: requestBody?.userRole
+            }),
+            ...(requestBody?.userContact?.length > 0 && {
+                userContact: requestBody?.userContact
             })
         };
         await user_1.UserModel.update(newData, {
