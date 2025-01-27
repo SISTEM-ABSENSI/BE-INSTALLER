@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.attendanceHistoryController = void 0;
 const findAll_1 = require("./findAll");
+const findDetail_1 = require("./findDetail");
 exports.attendanceHistoryController = {
-    findAll: findAll_1.findAll
+    findAll: findAll_1.findAll,
+    findDetail: findDetail_1.findDetail
 };

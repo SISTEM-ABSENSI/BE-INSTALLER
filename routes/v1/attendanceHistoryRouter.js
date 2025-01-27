@@ -6,4 +6,5 @@ const middlewares_1 = require("../../middlewares");
 const attendanceHistory_1 = require("../../controllers/attendanceHistory");
 const router = (0, express_1.Router)();
 router.get('/', middlewares_1.middleware.useAuthorization, attendanceHistory_1.attendanceHistoryController.findAll);
+router.get('/detail', middlewares_1.middleware.useAuthorization, attendanceHistory_1.attendanceHistoryController.findDetail);
 exports.default = router;

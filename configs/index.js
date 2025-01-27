@@ -29,7 +29,8 @@ exports.APP_CONFIGS = {
             database: process.env.DB_NAME,
             host: process.env.DB_HOST,
             dialect: process.env.DB_DIALECT,
-            logging: process.env.DB_LOG === 'true'
+            logging: process.env.DB_LOG === 'true',
+            port: parseInt(process.env.DB_PORT ?? '3306')
         },
         testing: {
             username: process.env.DB_USER_NAME,

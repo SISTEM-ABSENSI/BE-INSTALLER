@@ -11,6 +11,10 @@ exports.AttendanceHistoryModel = index_1.sequelize.define('AttendanceHistory', {
         autoIncrement: true,
         primaryKey: true
     },
+    attendanceHistoryScheduleId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
     attendanceHistoryUserId: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false
@@ -20,16 +24,16 @@ exports.AttendanceHistoryModel = index_1.sequelize.define('AttendanceHistory', {
         allowNull: false
     },
     attendanceHistoryCategory: {
-        type: sequelize_1.DataTypes.ENUM('checkin', 'checkout', 'outside'),
+        type: sequelize_1.DataTypes.ENUM('checkin', 'checkout'),
         allowNull: false
     },
     attendanceHistoryPhoto: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.TEXT,
         allowNull: false
     }
 }, {
     tableName: 'attendance_histories',
-    timestamps: false,
+    timestamps: true,
     underscored: true,
     freezeTableName: true
 });

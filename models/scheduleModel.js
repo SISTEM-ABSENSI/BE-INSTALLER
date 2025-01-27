@@ -7,6 +7,7 @@ const index_1 = require("./index");
 const zygote_1 = require("./zygote");
 const storeModel_1 = require("./storeModel");
 const user_1 = require("./user");
+const attendanceHistoryModel_1 = require("./attendanceHistoryModel");
 exports.ScheduleModel = index_1.sequelize.define('Schedules', {
     ...zygote_1.ZygoteModel,
     scheduleId: {
@@ -49,7 +50,7 @@ exports.ScheduleModel = index_1.sequelize.define('Schedules', {
     }
 }, {
     tableName: 'schedules',
-    timestamps: false,
+    timestamps: true,
     underscored: true,
     freezeTableName: true
 });
@@ -58,3 +59,7 @@ exports.ScheduleModel.belongsTo(storeModel_1.StoreModel, { foreignKey: 'schedule
 storeModel_1.StoreModel.hasOne(exports.ScheduleModel, { foreignKey: 'scheduleStoreId', as: 'schedule' });
 exports.ScheduleModel.belongsTo(user_1.UserModel, { foreignKey: 'scheduleUserId', as: 'user' });
 user_1.UserModel.hasOne(exports.ScheduleModel, { foreignKey: 'scheduleUserId', as: 'schedule' });
+exports.ScheduleModel.hasOne(attendanceHistoryModel_1.AttendanceHistoryModel, {
+    foreignKey: 'attendanceHistoryScheduleId',
+    as: 'attendanceHistory'
+});

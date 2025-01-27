@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAll = void 0;
+exports.findDetail = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
@@ -11,8 +11,7 @@ const logger_1 = __importDefault(require("../../utilities/logger"));
 const pagination_1 = require("../../utilities/pagination");
 const attendanceHistorySchema_1 = require("../../schemas/attendanceHistorySchema");
 const attendanceHistoryModel_1 = require("../../models/attendanceHistoryModel");
-const sequelize_1 = require("sequelize");
-const findAll = async (req, res) => {
+const findDetail = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(attendanceHistorySchema_1.findAllAttendanceHistoriesSchema, req.query);
     if (error != null) {
         const message = `Invalid request query! ${error.details.map((x) => x.message).join(', ')}`;
@@ -20,36 +19,20 @@ const findAll = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        const { page: queryPage, size: querySize, pagination, startDate, endDate, attendanceHistoryUserId, search } = value;
+        const { page: queryPage, size: querySize, pagination } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
-        const whereConditions = {
-            deleted: 0,
-            ...(Boolean(req.body?.jwtPayload?.userRole === 'user') && {
-                attendanceHistoryUserId: req.body?.jwtPayload?.userId
-            }),
-            ...(Boolean(req.body?.jwtPayload?.userRole === 'admin' ||
-                req.body?.jwtPayload?.userRole === 'superadmin') && {
-                attendanceHistoryUserId: attendanceHistoryUserId
-            })
-        };
-        if (startDate && endDate) {
-            whereConditions.attendanceHistoryTime = {
-                [sequelize_1.Op.between]: [new Date(startDate), new Date(endDate)]
-            };
-        }
-        if (search) {
-            whereConditions[sequelize_1.Op.or] = [
-                { attendanceHistoryCategory: { [sequelize_1.Op.like]: `%${search}%` } }
-            ];
-        }
         const result = await attendanceHistoryModel_1.AttendanceHistoryModel.findAndCountAll({
-            where: whereConditions,
+            where: {
+                deleted: 0,
+                attendanceHistoryScheduleId: value.attendanceHistoryScheduleId
+            },
             attributes: [
                 'attendanceHistoryId',
                 'attendanceHistoryUserId',
                 'attendanceHistoryTime',
                 'attendanceHistoryCategory',
-                'attendanceHistoryPhoto'
+                'attendanceHistoryPhoto',
+                'attendanceHistoryScheduleId'
             ],
             order: [['attendanceHistoryId', 'desc']],
             ...(pagination === 'true' && {
@@ -68,4 +51,4 @@ const findAll = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findAll = findAll;
+exports.findDetail = findDetail;

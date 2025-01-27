@@ -11,9 +11,7 @@ exports.attendanceHistorySchema = joi_1.default.object({
     attendanceHistoryUserId: joi_1.default.number().integer().positive().required(),
     attendanceHistoryTime: joi_1.default.string().isoDate().required(),
     attendanceHistoryPhoto: joi_1.default.string().required(),
-    attendanceHistoryCategory: joi_1.default.string()
-        .valid('checkin', 'checkout', 'outside')
-        .required()
+    attendanceHistoryCategory: joi_1.default.string().valid('checkin', 'checkout').required()
 });
 exports.updateAttendanceHistorySchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -31,5 +29,6 @@ exports.findAllAttendanceHistoriesSchema = joi_1.default.object({
     pagination: joi_1.default.boolean().optional(),
     startDate: joi_1.default.string().isoDate().optional(),
     endDate: joi_1.default.string().isoDate().optional(),
-    attendanceHistoryUserId: joi_1.default.number().integer().positive().required()
+    attendanceHistoryUserId: joi_1.default.number().integer().positive().optional().allow(''),
+    attendanceHistoryScheduleId: joi_1.default.number().integer().positive().optional().allow('')
 });

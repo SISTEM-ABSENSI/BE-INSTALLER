@@ -30,7 +30,6 @@ const attendance = async (req, res) => {
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
         }
-        // Determine the next status based on the current scheduleStatus
         let newStatus = null;
         if (scheduleRecord.scheduleStatus === 'waiting') {
             newStatus = 'checkin';
@@ -43,7 +42,6 @@ const attendance = async (req, res) => {
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
-        // Update jadwal status to the new status
         await scheduleModel_1.ScheduleModel.update({ ...value, scheduleStatus: newStatus }, {
             where: { deleted: 0, scheduleId: value.attendanceId }
         });
@@ -51,7 +49,8 @@ const attendance = async (req, res) => {
             attendanceHistoryTime: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss'),
             attendanceHistoryCategory: newStatus,
             attendanceHistoryUserId: scheduleRecord.scheduleUserId,
-            attendanceHistoryPhoto: value.attendancePhoto
+            attendanceHistoryPhoto: value.attendancePhoto,
+            attendanceHistoryScheduleId: value.attendanceId
         };
         await attendanceHistoryModel_1.AttendanceHistoryModel.create(attendanceHistoryPayload);
         const response = response_1.ResponseData.success({
