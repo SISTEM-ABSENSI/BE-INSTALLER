@@ -30,12 +30,27 @@ const attendance = async (req, res) => {
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
         }
-        let newStatus = null;
-        if (scheduleRecord.scheduleStatus === 'waiting') {
-            newStatus = 'checkin';
+        const currentTime = (0, moment_1.default)();
+        const startDate = (0, moment_1.default)(scheduleRecord.scheduleStartDate);
+        const endDate = (0, moment_1.default)(scheduleRecord.scheduleEndDate);
+        // Check if trying to check in before start date
+        if (currentTime.isBefore(startDate)) {
+            const message = 'Cannot check in before scheduled start time';
+            logger_1.default.warn(message);
+            return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
-        else if (scheduleRecord.scheduleStatus === 'checkin') {
-            newStatus = 'checkout';
+        let newStatus = null;
+        // Check if past end date
+        if (currentTime.isAfter(endDate)) {
+            newStatus = 'outside';
+        }
+        else {
+            if (scheduleRecord.scheduleStatus === 'waiting') {
+                newStatus = 'checkin';
+            }
+            else if (scheduleRecord.scheduleStatus === 'checkin') {
+                newStatus = 'checkout';
+            }
         }
         if (!newStatus) {
             const message = 'Invalid status transition';
@@ -46,7 +61,7 @@ const attendance = async (req, res) => {
             where: { deleted: 0, scheduleId: value.attendanceId }
         });
         const attendanceHistoryPayload = {
-            attendanceHistoryTime: (0, moment_1.default)().format('YYYY-MM-DD HH:mm:ss'),
+            attendanceHistoryTime: currentTime.format('YYYY-MM-DD HH:mm:ss'),
             attendanceHistoryCategory: newStatus,
             attendanceHistoryUserId: scheduleRecord.scheduleUserId,
             attendanceHistoryPhoto: value.attendancePhoto,
