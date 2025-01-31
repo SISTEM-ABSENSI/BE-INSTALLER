@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -25,7 +26,7 @@ const attendance = async (req, res) => {
         const scheduleRecord = await scheduleModel_1.ScheduleModel.findOne({
             where: { deleted: 0, scheduleId: value.attendanceId }
         });
-        if (!scheduleRecord) {
+        if (scheduleRecord == null) {
             const message = 'Attendance record not found';
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
@@ -41,16 +42,17 @@ const attendance = async (req, res) => {
         }
         let newStatus = null;
         // Check if past end date
+        if (scheduleRecord.scheduleStatus === 'waiting') {
+            newStatus = 'checkin';
+        }
+        else if (scheduleRecord.scheduleStatus === 'checkin') {
+            newStatus = 'checkout';
+        }
         if (currentTime.isAfter(endDate)) {
-            newStatus = 'outside';
+            scheduleRecord.scheduleOntime = false;
         }
         else {
-            if (scheduleRecord.scheduleStatus === 'waiting') {
-                newStatus = 'checkin';
-            }
-            else if (scheduleRecord.scheduleStatus === 'checkin') {
-                newStatus = 'checkout';
-            }
+            scheduleRecord.scheduleOntime = true;
         }
         if (!newStatus) {
             const message = 'Invalid status transition';

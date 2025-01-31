@@ -47,6 +47,11 @@ exports.ScheduleModel = index_1.sequelize.define('Schedules', {
         type: sequelize_1.DataTypes.ENUM('waiting', 'checkin', 'checkout', 'outside'),
         allowNull: true,
         defaultValue: 'waiting'
+    },
+    scheduleOntime: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
     }
 }, {
     tableName: 'schedules',
