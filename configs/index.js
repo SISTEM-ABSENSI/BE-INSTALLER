@@ -30,10 +30,7 @@ exports.APP_CONFIGS = {
             host: process.env.DB_HOST,
             dialect: process.env.DB_DIALECT,
             logging: process.env.DB_LOG === 'true',
-            port: parseInt(process.env.DB_PORT ?? '3306'),
-            dialectOptions: {
-                dateStrings: true
-            }
+            port: parseInt(process.env.DB_PORT ?? '3306')
         },
         testing: {
             username: process.env.DB_USER_NAME,
