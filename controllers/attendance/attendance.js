@@ -14,6 +14,9 @@ const scheduleModel_1 = require("../../models/scheduleModel");
 const attendanceHistoryModel_1 = require("../../models/attendanceHistoryModel");
 const moment_1 = __importDefault(require("moment"));
 const attendance = async (req, res) => {
+    console.log('___________value______');
+    console.log(req.body);
+    console.log('___________value______');
     const { error, value } = (0, validateRequest_1.validateRequest)(attendanceSchema_1.updateAttendanceSchema, {
         ...req.body
     });
@@ -26,7 +29,7 @@ const attendance = async (req, res) => {
         const scheduleRecord = await scheduleModel_1.ScheduleModel.findOne({
             where: { deleted: 0, scheduleId: value.attendanceId }
         });
-        if (scheduleRecord == null) {
+        if (scheduleRecord === null) {
             const message = 'Attendance record not found';
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
@@ -59,11 +62,12 @@ const attendance = async (req, res) => {
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
+        console.log(newStatus);
         await scheduleModel_1.ScheduleModel.update({ ...value, scheduleStatus: newStatus }, {
             where: { deleted: 0, scheduleId: value.attendanceId }
         });
         const attendanceHistoryPayload = {
-            attendanceHistoryTime: currentTime.format('YYYY-MM-DD HH:mm:ss'),
+            attendanceHistoryTime: value.attendanceTime,
             attendanceHistoryCategory: newStatus,
             attendanceHistoryUserId: scheduleRecord.scheduleUserId,
             attendanceHistoryPhoto: value.attendancePhoto,

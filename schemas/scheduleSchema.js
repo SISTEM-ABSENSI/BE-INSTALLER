@@ -11,10 +11,9 @@ exports.createScheduleSchema = joi_1.default.object({
     scheduleName: joi_1.default.string().max(100).required(), // Validasi nama schedule
     scheduleDescription: joi_1.default.string().required(), // Validasi deskripsi schedule
     scheduleStoreId: joi_1.default.number().integer().positive().required(), // Foreign key ke Store
-    scheduleStartDate: joi_1.default.date().optional(), // Tanggal mulai opsional
-    scheduleEndDate: joi_1.default.date().optional(), // Tanggal selesai opsional
-    scheduleStatus: joi_1.default.string().valid('waiting', 'checkin', 'checkout').optional(), // Status dengan pilihan tertentu
-    createdAt: joi_1.default.date().optional()
+    scheduleStartDate: joi_1.default.string().required(), // Tanggal mulai opsional
+    scheduleEndDate: joi_1.default.string().required(), // Tanggal selesai opsional
+    scheduleStatus: joi_1.default.string().valid('waiting', 'checkin', 'checkout').optional() // Status dengan pilihan tertentu
 });
 exports.updateScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -22,8 +21,8 @@ exports.updateScheduleSchema = joi_1.default.object({
     scheduleName: joi_1.default.string().allow('').max(100).optional(),
     scheduleDescription: joi_1.default.string().allow('').optional(),
     scheduleStoreId: joi_1.default.number().allow('').integer().positive().optional(),
-    scheduleStartDate: joi_1.default.date().allow('').optional(),
-    scheduleEndDate: joi_1.default.date().allow('').optional(),
+    scheduleStartDate: joi_1.default.string().required(),
+    scheduleEndDate: joi_1.default.string().required(),
     scheduleStatus: joi_1.default.string()
         .allow('')
         .valid('waiting', 'checkin', 'checkout')

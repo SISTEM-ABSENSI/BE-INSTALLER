@@ -12,11 +12,15 @@ const scheduleModel_1 = require("../../models/scheduleModel");
 const scheduleSchema_1 = require("../../schemas/scheduleSchema");
 const createSchedule = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(scheduleSchema_1.createScheduleSchema, req.body);
+    console.log('__________value--start--sd');
+    console.log(req.body);
     if (error != null) {
         const message = `Invalid request body! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
+    console.log('__________value--end--sd');
+    console.log(value);
     try {
         value.scheduleUserId = req.body?.jwtPayload?.userId;
         const schedule = await scheduleModel_1.ScheduleModel.create(value);

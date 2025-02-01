@@ -9,7 +9,8 @@ const jwtPayloadSchema_1 = require("./jwtPayloadSchema");
 exports.updateAttendanceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
     attendanceId: joi_1.default.number().integer().positive().required(),
-    attendancePhoto: joi_1.default.string().required()
+    attendancePhoto: joi_1.default.string().required(),
+    attendanceTime: joi_1.default.string().required()
 });
 exports.findOneAttendanceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
