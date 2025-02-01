@@ -51,7 +51,7 @@ exports.ScheduleModel = index_1.sequelize.define('Schedules', {
     scheduleOntime: {
         type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false
+        defaultValue: true
     }
 }, {
     tableName: 'schedules',

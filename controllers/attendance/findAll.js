@@ -14,7 +14,6 @@ const scheduleModel_1 = require("../../models/scheduleModel");
 const storeModel_1 = require("../../models/storeModel");
 const sequelize_1 = require("sequelize");
 const user_1 = require("../../models/user");
-const attendanceHistoryModel_1 = require("../../models/attendanceHistoryModel");
 const findAllAttendance = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(scheduleSchema_1.findAllScheduleSchema, req.query);
     if (error != null) {
@@ -64,16 +63,6 @@ const findAllAttendance = async (req, res) => {
                             ]
                         }
                         : undefined
-                },
-                {
-                    model: attendanceHistoryModel_1.AttendanceHistoryModel,
-                    as: 'attendanceHistory',
-                    attributes: [
-                        'attendanceHistoryId',
-                        'attendanceHistoryTime',
-                        'attendanceHistoryPhoto',
-                        'attendanceHistoryCategory'
-                    ]
                 }
             ],
             order: [['scheduleId', 'desc']],
