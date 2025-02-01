@@ -11294,3 +11294,7 @@
 {"level":"info","message":"::ffff:127.0.0.1 - - [01/Feb/2025:08:26:10 +0000] \"GET /api/v1/attendances/histories/detail?attendanceHistoryScheduleId=7 HTTP/1.1\" 304 - \"http://localhost:5173/\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0\"","service":"backend-service","timestamp":"2025-02-01 15:26:10"}
 {"level":"info","message":"Attendance history retrieved successfully","service":"backend-service","timestamp":"2025-02-01 15:26:10"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [01/Feb/2025:08:26:10 +0000] \"GET /api/v1/attendances/histories/detail?attendanceHistoryScheduleId=7 HTTP/1.1\" 200 902 \"http://localhost:5173/\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0\"","service":"backend-service","timestamp":"2025-02-01 15:26:10"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-01 18:16:39"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-01 18:17:16"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-01 18:17:50"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-01 18:20:57"}
