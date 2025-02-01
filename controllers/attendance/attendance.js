@@ -37,6 +37,19 @@ const attendance = async (req, res) => {
         const currentTime = (0, moment_1.default)().utcOffset('+07:00');
         const startDate = (0, moment_1.default)(scheduleRecord.scheduleStartDate);
         const endDate = (0, moment_1.default)(scheduleRecord.scheduleEndDate);
+        logger_1.default.info('-------------current time with +07 utc----------------');
+        logger_1.default.info(currentTime);
+        logger_1.default.info('-----------------end-------------');
+        const timeWithPureMoment = (0, moment_1.default)();
+        logger_1.default.info('-------------current time with pure moment----------------');
+        logger_1.default.info(timeWithPureMoment);
+        logger_1.default.info('-----------------end-------------');
+        logger_1.default.info('-------------start date----------------');
+        logger_1.default.info(startDate);
+        logger_1.default.info('-----------------end-------------');
+        logger_1.default.info('-------------end date----------------');
+        logger_1.default.info(endDate);
+        logger_1.default.info('-----------------end-------------');
         // // Check if trying to check in before start date
         // if (currentTime.isBefore(startDate)) {
         //   const message = 'Cannot check in before scheduled start time'
