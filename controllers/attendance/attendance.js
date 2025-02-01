@@ -34,7 +34,7 @@ const attendance = async (req, res) => {
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
         }
-        const currentTime = (0, moment_1.default)();
+        const currentTime = (0, moment_1.default)().utcOffset('+07:00');
         const startDate = (0, moment_1.default)(scheduleRecord.scheduleStartDate);
         const endDate = (0, moment_1.default)(scheduleRecord.scheduleEndDate);
         // // Check if trying to check in before start date
