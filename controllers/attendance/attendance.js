@@ -59,7 +59,6 @@ const attendance = async (req, res) => {
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
-        console.log(newStatus);
         await scheduleModel_1.ScheduleModel.update({ ...value, scheduleStatus: newStatus }, {
             where: { deleted: 0, scheduleId: value.attendanceId }
         });

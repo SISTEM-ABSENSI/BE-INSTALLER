@@ -11,7 +11,6 @@ const logger_1 = __importDefault(require("../../utilities/logger"));
 const scheduleModel_1 = require("../../models/scheduleModel");
 const scheduleSchema_1 = require("../../schemas/scheduleSchema");
 const index_1 = require("../../models/index");
-const todoListModel_1 = require("../../models/todoListModel");
 const createSchedule = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(scheduleSchema_1.createScheduleSchema, req.body);
     if (error != null) {
@@ -23,11 +22,11 @@ const createSchedule = async (req, res) => {
     try {
         value.scheduleUserId = req.body?.jwtPayload?.userId;
         const schedule = await scheduleModel_1.ScheduleModel.create(value, { transaction });
-        const todoLists = req.body.todoLists.map((todo) => ({
-            ...todo,
-            todoListScheduleId: schedule.scheduleId
-        }));
-        await todoListModel_1.TodoListModel.bulkCreate(todoLists, { transaction });
+        // const todoLists = req.body.todoLists.map((todo: any) => ({
+        //   ...todo,
+        //   todoListScheduleId: schedule.scheduleId
+        // }))
+        // await TodoListModel.bulkCreate(todoLists, { transaction })
         await transaction.commit();
         const response = response_1.ResponseData.success();
         logger_1.default.info('Schedule and todo lists created successfully');

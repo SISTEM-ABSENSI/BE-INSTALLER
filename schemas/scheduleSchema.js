@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAllScheduleSchema = exports.findOneScheduleSchema = exports.deleteScheduleSchema = exports.updateScheduleSchema = exports.createScheduleSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const jwtPayloadSchema_1 = require("./jwtPayloadSchema");
-const todoListSchema_1 = require("./todoListSchema");
+// import { createTodoListSchema } from './todoListSchema'
 exports.createScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
     scheduleName: joi_1.default.string().max(100).required(),
@@ -14,8 +14,8 @@ exports.createScheduleSchema = joi_1.default.object({
     scheduleStoreId: joi_1.default.number().integer().positive().required(),
     scheduleStartDate: joi_1.default.string().required(),
     scheduleEndDate: joi_1.default.string().required(),
-    scheduleStatus: joi_1.default.string().valid('waiting', 'checkin', 'checkout').optional(),
-    todoLists: joi_1.default.array().items(todoListSchema_1.createTodoListSchema).required()
+    scheduleStatus: joi_1.default.string().valid('waiting', 'checkin', 'checkout').optional()
+    // todoLists: Joi.array().items(createTodoListSchema).required()
 });
 exports.updateScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -28,8 +28,8 @@ exports.updateScheduleSchema = joi_1.default.object({
     scheduleStatus: joi_1.default.string()
         .allow('')
         .valid('waiting', 'checkin', 'checkout')
-        .optional(),
-    todoLists: joi_1.default.array().items(todoListSchema_1.createTodoListSchema).optional()
+        .optional()
+    // todoLists: Joi.array().items(createTodoListSchema).optional()
 });
 exports.deleteScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,

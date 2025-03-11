@@ -13,7 +13,7 @@ const scheduleSchema_1 = require("../../schemas/scheduleSchema");
 const scheduleModel_1 = require("../../models/scheduleModel");
 const storeModel_1 = require("../../models/storeModel");
 const sequelize_1 = require("sequelize");
-const todoListModel_1 = require("../../models/todoListModel");
+// import { TodoListModel } from '../../models/todoListModel'
 const findAllSchedule = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(scheduleSchema_1.findAllScheduleSchema, req.query);
     if (error != null) {
@@ -45,11 +45,11 @@ const findAllSchedule = async (req, res) => {
                 {
                     model: storeModel_1.StoreModel,
                     as: 'store'
-                },
-                {
-                    model: todoListModel_1.TodoListModel,
-                    as: 'todoList'
                 }
+                // {
+                //   model: TodoListModel,
+                //   as: 'todoList'
+                // }
             ],
             order: [
                 [(0, sequelize_1.fn)('FIELD', (0, sequelize_1.col)('scheduleStatus'), 'waiting', 'checkin', 'checkout'), 'ASC'],
