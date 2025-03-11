@@ -20,7 +20,7 @@ exports.updateStoreSchema = joi_1.default.object({
     storeName: joi_1.default.string().allow('').max(100).optional(),
     storeAddress: joi_1.default.string().allow('').required(),
     storeLongitude: joi_1.default.string().allow('').max(100).optional(),
-    storeLatitude: joi_1.default.string().allow('').max(100).optional(),
+    storeLatitude: joi_1.default.string().allow('').max(100).optional()
 });
 exports.deleteStoreSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,

@@ -11298,3 +11298,101 @@
 {"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-01 18:17:16"}
 {"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-01 18:17:50"}
 {"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-01 18:20:57"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-10 21:34:22"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:36:14 +0000] \"POST /api/v1/shedules HTTP/1.1\" 404 155 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:36:14"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:36:24 +0000] \"POST /api/v1/schedules HTTP/1.1\" 400 139 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:36:24"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:40:28 +0000] \"POST /api/v1/login HTTP/1.1\" 404 152 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:40:28"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-10 21:41:03"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-10 21:44:43"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-10 21:46:05"}
+{"level":"warn","message":"Invalid request parameter! \"userName\" is required, \"userPassword\" is required, \"name\" is not allowed, \"ages\" is not allowed","service":"backend-service","timestamp":"2025-02-10 21:53:14"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:53:14 +0000] \"POST /api/v1/auth/login HTTP/1.1\" 400 248 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:53:14"}
+{"level":"info","message":"Login attempt failed: Account not found. Please register first!","service":"backend-service","timestamp":"2025-02-10 21:54:02"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:54:02 +0000] \"POST /api/v1/auth/login HTTP/1.1\" 404 158 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:54:02"}
+{"level":"warn","message":"Invalid request parameter! \"userRole\" is required","service":"backend-service","timestamp":"2025-02-10 21:57:22"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:57:22 +0000] \"POST /api/v1/auth/register HTTP/1.1\" 400 168 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:57:22"}
+{"level":"error","message":"Unable to process request! Error: Field 'user_contact' doesn't have a default value","service":"backend-service","stack":"Error\n    at Query.run (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)\n    at /home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async MySQLQueryInterface.insert (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)\n    at async model.save (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/model.js:2490:35)\n    at async Users.create (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/model.js:1362:12)\n    at async Object.userRegister [as register] (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/build/controllers/auth/register.js:53:9)\n    at async /home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/build/routes/v1/authRouter.js:8:46","timestamp":"2025-02-10 21:57:37"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:57:37 +0000] \"POST /api/v1/auth/register HTTP/1.1\" 500 200 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:57:37"}
+{"level":"warn","message":"Invalid request parameter! \"userContact\" must be a string","service":"backend-service","timestamp":"2025-02-10 21:57:50"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:57:50 +0000] \"POST /api/v1/auth/register HTTP/1.1\" 400 176 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:57:50"}
+{"level":"info","message":"User Jack registered successfully","service":"backend-service","timestamp":"2025-02-10 21:57:55"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:57:55 +0000] \"POST /api/v1/auth/register HTTP/1.1\" 201 154 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:57:55"}
+{"level":"info","message":"User Jack logged in successfully","service":"backend-service","timestamp":"2025-02-10 21:58:00"}
+{"level":"info","message":"::1 - - [10/Feb/2025:14:58:00 +0000] \"POST /api/v1/auth/login HTTP/1.1\" 200 273 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 21:58:00"}
+{"level":"warn","message":"Invalid request body! \"scheduleName\" is required, \"scheduleDescription\" is required, \"scheduleStoreId\" is required, \"scheduleStartDate\" is required, \"scheduleEndDate\" is required, \"todoLists\" is required, \"userName\" is not allowed, \"userPassword\" is not allowed","service":"backend-service","timestamp":"2025-02-10 22:00:57"}
+{"level":"info","message":"::1 - - [10/Feb/2025:15:00:57 +0000] \"POST /api/v1/schedules HTTP/1.1\" 400 394 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 22:00:57"}
+{"level":"warn","message":"Invalid request body! \"todoLists[0].todoListScheduleId\" is required, \"todoLists[1].todoListScheduleId\" is required","service":"backend-service","timestamp":"2025-02-10 22:01:17"}
+{"level":"info","message":"::1 - - [10/Feb/2025:15:01:17 +0000] \"POST /api/v1/schedules HTTP/1.1\" 400 235 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 22:01:17"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-10 22:03:03"}
+{"level":"error","message":"Unable to process request! Error: Cannot add or update a child row: a foreign key constraint fails (`sistemabsensi`.`schedules`, CONSTRAINT `schedules_ibfk_1` FOREIGN KEY (`schedule_store_id`) REFERENCES `stores` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE)","service":"backend-service","stack":"Error\n    at Query.run (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)\n    at /home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async MySQLQueryInterface.insert (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)\n    at async model.save (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/model.js:2490:35)\n    at async Schedules.create (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/node_modules/sequelize/lib/model.js:1362:12)\n    at async createSchedule (/home/misdar/Documents/DEVELOPER/ABSENSI/BACKEND/build/controllers/schedule/create.js:25:26)","timestamp":"2025-02-10 22:03:22"}
+{"level":"info","message":"::1 - - [10/Feb/2025:15:03:22 +0000] \"POST /api/v1/schedules HTTP/1.1\" 500 379 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 22:03:22"}
+{"level":"info","message":"Schedule and todo lists created successfully","service":"backend-service","timestamp":"2025-02-10 22:04:24"}
+{"level":"info","message":"::1 - - [10/Feb/2025:15:04:24 +0000] \"POST /api/v1/schedules HTTP/1.1\" 201 894 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-10 22:04:24"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:15:52"}
+{"level":"info","message":"Schedule and todo lists created successfully","service":"backend-service","timestamp":"2025-02-11 21:16:54"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:16:54 +0000] \"POST /api/v1/schedules HTTP/1.1\" 201 894 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:16:54"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:19:10"}
+{"level":"info","message":"Schedule and todo lists created successfully","service":"backend-service","timestamp":"2025-02-11 21:20:09"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:20:09 +0000] \"POST /api/v1/schedules HTTP/1.1\" 201 138 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:20:09"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:20:48"}
+{"level":"info","message":"Schedule and todo lists created successfully","service":"backend-service","timestamp":"2025-02-11 21:21:47"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:21:47 +0000] \"POST /api/v1/schedules HTTP/1.1\" 201 121 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:21:47"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:23:30 +0000] \"PUT /api/v1/schedules HTTP/1.1\" 404 155 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:23:30"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:23:37 +0000] \"PATCH /api/v1/schedules HTTP/1.1\" 400 139 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:23:37"}
+{"level":"warn","message":"Invalid request body! \"scheduleId\" is required","service":"backend-service","timestamp":"2025-02-11 21:24:00"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:24:00 +0000] \"PATCH /api/v1/schedules HTTP/1.1\" 400 165 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:24:00"}
+{"level":"info","message":"Schedule updated successfully","service":"backend-service","timestamp":"2025-02-11 21:24:56"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:24:56 +0000] \"PATCH /api/v1/schedules HTTP/1.1\" 200 160 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:24:56"}
+{"level":"info","message":"Schedule retrieved successfully","service":"backend-service","timestamp":"2025-02-11 21:25:13"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:25:13 +0000] \"GET /api/v1/schedules HTTP/1.1\" 200 2665 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:25:13"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:30:26"}
+{"level":"info","message":"Schedule retrieved successfully","service":"backend-service","timestamp":"2025-02-11 21:30:33"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:30:33 +0000] \"GET /api/v1/schedules HTTP/1.1\" 200 4353 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:30:33"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:32:36"}
+{"level":"info","message":"Schedule retrieved successfully","service":"backend-service","timestamp":"2025-02-11 21:32:54"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:32:54 +0000] \"GET /api/v1/schedules HTTP/1.1\" 200 4353 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:32:54"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:34:21 +0000] \"DELETE /api/v1/schedules HTTP/1.1\" 404 158 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:34:21"}
+{"level":"info","message":"Schedule deleted successfully","service":"backend-service","timestamp":"2025-02-11 21:34:31"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:34:31 +0000] \"DELETE /api/v1/schedules/1 HTTP/1.1\" 200 160 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:34:31"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:35:10 +0000] \"GET /api/v1/schedules/1 HTTP/1.1\" 404 157 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:35:10"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:35:19 +0000] \"GET /api/v1/schedules/detail/1 HTTP/1.1\" 400 139 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:35:19"}
+{"level":"warn","message":"Schedule not found with ID: 1","service":"backend-service","timestamp":"2025-02-11 21:35:28"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:35:28 +0000] \"GET /api/v1/schedules/detail/1 HTTP/1.1\" 404 146 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:35:28"}
+{"level":"warn","message":"Schedule not found with ID: 1","service":"backend-service","timestamp":"2025-02-11 21:36:06"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:36:06 +0000] \"GET /api/v1/schedules/detail/1 HTTP/1.1\" 404 146 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:36:06"}
+{"level":"info","message":"Schedule found successfully","service":"backend-service","timestamp":"2025-02-11 21:36:12"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:36:12 +0000] \"GET /api/v1/schedules/detail/4 HTTP/1.1\" 200 1160 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:36:12"}
+{"level":"info","message":"Store retrieved successfully","service":"backend-service","timestamp":"2025-02-11 21:38:56"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:38:56 +0000] \"GET /api/v1/stores HTTP/1.1\" 200 594 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:38:56"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:39:18 +0000] \"GET /api/v1/sores/detail/4 HTTP/1.1\" 404 160 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:39:18"}
+{"level":"warn","message":"Store not found with ID: 4","service":"backend-service","timestamp":"2025-02-11 21:39:25"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:39:25 +0000] \"GET /api/v1/stores/detail/4 HTTP/1.1\" 404 143 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:39:25"}
+{"level":"info","message":"Store found successfully","service":"backend-service","timestamp":"2025-02-11 21:39:32"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:39:32 +0000] \"GET /api/v1/stores/detail/1 HTTP/1.1\" 200 325 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:39:32"}
+{"level":"warn","message":"Invalid request body! \"storeName\" is required, \"storeAddress\" is required, \"storeLongitude\" is required, \"storeLatitude\" is required, \"scheduleName\" is not allowed, \"scheduleDescription\" is not allowed, \"scheduleStoreId\" is not allowed, \"scheduleStartDate\" is not allowed, \"scheduleEndDate\" is not allowed, \"scheduleStatus\" is not allowed, \"todoLists\" is not allowed","service":"backend-service","timestamp":"2025-02-11 21:39:52"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:39:52 +0000] \"POST /api/v1/stores HTTP/1.1\" 400 505 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:39:52"}
+{"level":"info","message":"Store created successfully","service":"backend-service","timestamp":"2025-02-11 21:41:16"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:41:16 +0000] \"POST /api/v1/stores HTTP/1.1\" 201 284 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:41:16"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:42:33"}
+{"level":"info","message":"Store created successfully","service":"backend-service","timestamp":"2025-02-11 21:42:40"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:42:40 +0000] \"POST /api/v1/stores HTTP/1.1\" 201 121 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:42:40"}
+{"level":"info","message":"storeId updated successfully","service":"backend-service","timestamp":"2025-02-11 21:43:28"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:43:28 +0000] \"PATCH /api/v1/stores HTTP/1.1\" 200 159 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:43:28"}
+{"level":"info","message":"Store deleted successfully","service":"backend-service","timestamp":"2025-02-11 21:44:19"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:44:19 +0000] \"DELETE /api/v1/stores/1 HTTP/1.1\" 200 157 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:44:19"}
+{"level":"info","message":"Attendance records retrieved successfully","service":"backend-service","timestamp":"2025-02-11 21:44:59"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:44:59 +0000] \"GET /api/v1/attendances HTTP/1.1\" 200 178 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:44:59"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:47:10"}
+{"level":"info","message":"Listening on http://localhost:8000","service":"backend-service","timestamp":"2025-02-11 21:48:47"}
+{"level":"warn","message":"Invalid request body! \"attendancePhoto\" is not allowed to be empty, \"attendanceTime\" is not allowed to be empty","service":"backend-service","timestamp":"2025-02-11 21:50:04"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:50:04 +0000] \"PATCH /api/v1/attendances HTTP/1.1\" 400 232 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:50:04"}
+{"level":"warn","message":"Attendance record not found","service":"backend-service","timestamp":"2025-02-11 21:51:35"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:51:35 +0000] \"PATCH /api/v1/attendances HTTP/1.1\" 404 144 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:51:35"}
+{"level":"info","message":"Schedule retrieved successfully","service":"backend-service","timestamp":"2025-02-11 21:51:56"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:51:56 +0000] \"GET /api/v1/schedules HTTP/1.1\" 200 4325 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:51:56"}
+{"level":"info","message":"Attendance updated to checkin successfully","service":"backend-service","timestamp":"2025-02-11 21:52:14"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:52:14 +0000] \"PATCH /api/v1/attendances HTTP/1.1\" 200 173 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:52:14"}
+{"level":"info","message":"Attendance updated to checkout successfully","service":"backend-service","timestamp":"2025-02-11 21:52:20"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:52:20 +0000] \"PATCH /api/v1/attendances HTTP/1.1\" 200 174 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:52:20"}
+{"level":"warn","message":"Invalid status transition","service":"backend-service","timestamp":"2025-02-11 21:52:24"}
+{"level":"info","message":"::1 - - [11/Feb/2025:14:52:24 +0000] \"PATCH /api/v1/attendances HTTP/1.1\" 400 142 \"-\" \"PostmanRuntime/7.43.0\"","service":"backend-service","timestamp":"2025-02-11 21:52:24"}

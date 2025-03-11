@@ -6,18 +6,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAllScheduleSchema = exports.findOneScheduleSchema = exports.deleteScheduleSchema = exports.updateScheduleSchema = exports.createScheduleSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const jwtPayloadSchema_1 = require("./jwtPayloadSchema");
+const todoListSchema_1 = require("./todoListSchema");
 exports.createScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
-    scheduleName: joi_1.default.string().max(100).required(), // Validasi nama schedule
-    scheduleDescription: joi_1.default.string().required(), // Validasi deskripsi schedule
-    scheduleStoreId: joi_1.default.number().integer().positive().required(), // Foreign key ke Store
-    scheduleStartDate: joi_1.default.string().required(), // Tanggal mulai opsional
-    scheduleEndDate: joi_1.default.string().required(), // Tanggal selesai opsional
-    scheduleStatus: joi_1.default.string().valid('waiting', 'checkin', 'checkout').optional() // Status dengan pilihan tertentu
+    scheduleName: joi_1.default.string().max(100).required(),
+    scheduleDescription: joi_1.default.string().required(),
+    scheduleStoreId: joi_1.default.number().integer().positive().required(),
+    scheduleStartDate: joi_1.default.string().required(),
+    scheduleEndDate: joi_1.default.string().required(),
+    scheduleStatus: joi_1.default.string().valid('waiting', 'checkin', 'checkout').optional(),
+    todoLists: joi_1.default.array().items(todoListSchema_1.createTodoListSchema).required()
 });
 exports.updateScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
-    scheduleId: joi_1.default.number().integer().positive().required(), // ID wajib untuk update
+    scheduleId: joi_1.default.number().integer().positive().required(),
     scheduleName: joi_1.default.string().allow('').max(100).optional(),
     scheduleDescription: joi_1.default.string().allow('').optional(),
     scheduleStoreId: joi_1.default.number().allow('').integer().positive().optional(),
@@ -26,11 +28,12 @@ exports.updateScheduleSchema = joi_1.default.object({
     scheduleStatus: joi_1.default.string()
         .allow('')
         .valid('waiting', 'checkin', 'checkout')
-        .optional()
+        .optional(),
+    todoLists: joi_1.default.array().items(todoListSchema_1.createTodoListSchema).optional()
 });
 exports.deleteScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
-    scheduleId: joi_1.default.number().integer().positive().required() // Wajib untuk menghapus
+    scheduleId: joi_1.default.number().integer().positive().required()
 });
 exports.findOneScheduleSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,

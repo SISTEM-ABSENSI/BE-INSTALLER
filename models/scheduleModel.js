@@ -8,6 +8,7 @@ const zygote_1 = require("./zygote");
 const storeModel_1 = require("./storeModel");
 const user_1 = require("./user");
 const attendanceHistoryModel_1 = require("./attendanceHistoryModel");
+const todoListModel_1 = require("./todoListModel");
 exports.ScheduleModel = index_1.sequelize.define('Schedules', {
     ...zygote_1.ZygoteModel,
     scheduleId: {
@@ -67,4 +68,8 @@ user_1.UserModel.hasOne(exports.ScheduleModel, { foreignKey: 'scheduleUserId', a
 exports.ScheduleModel.hasOne(attendanceHistoryModel_1.AttendanceHistoryModel, {
     foreignKey: 'attendanceHistoryScheduleId',
     as: 'attendanceHistory'
+});
+exports.ScheduleModel.hasMany(todoListModel_1.TodoListModel, {
+    foreignKey: 'todoListScheduleId',
+    as: 'todoList'
 });

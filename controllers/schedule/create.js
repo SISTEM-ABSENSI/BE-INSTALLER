@@ -10,25 +10,31 @@ const response_1 = require("../../utilities/response");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const scheduleModel_1 = require("../../models/scheduleModel");
 const scheduleSchema_1 = require("../../schemas/scheduleSchema");
+const index_1 = require("../../models/index");
+const todoListModel_1 = require("../../models/todoListModel");
 const createSchedule = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(scheduleSchema_1.createScheduleSchema, req.body);
-    console.log('__________value--start--sd');
-    console.log(req.body);
     if (error != null) {
         const message = `Invalid request body! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
-    console.log('__________value--end--sd');
-    console.log(value);
+    const transaction = await index_1.sequelize.transaction();
     try {
         value.scheduleUserId = req.body?.jwtPayload?.userId;
-        const schedule = await scheduleModel_1.ScheduleModel.create(value);
-        const response = response_1.ResponseData.success(schedule);
-        logger_1.default.info('schedule created successfully');
+        const schedule = await scheduleModel_1.ScheduleModel.create(value, { transaction });
+        const todoLists = req.body.todoLists.map((todo) => ({
+            ...todo,
+            todoListScheduleId: schedule.scheduleId
+        }));
+        await todoListModel_1.TodoListModel.bulkCreate(todoLists, { transaction });
+        await transaction.commit();
+        const response = response_1.ResponseData.success();
+        logger_1.default.info('Schedule and todo lists created successfully');
         return res.status(http_status_codes_1.StatusCodes.CREATED).json(response);
     }
     catch (error) {
+        await transaction.rollback();
         const message = `Unable to process request! Error: ${error.message}`;
         logger_1.default.error(message, { stack: error.stack });
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));

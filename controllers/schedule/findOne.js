@@ -11,6 +11,7 @@ const logger_1 = __importDefault(require("../../utilities/logger"));
 const scheduleModel_1 = require("../../models/scheduleModel");
 const storeModel_1 = require("../../models/storeModel");
 const scheduleSchema_1 = require("../../schemas/scheduleSchema");
+const todoListModel_1 = require("../../models/todoListModel");
 const findOneSchedule = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(scheduleSchema_1.findOneScheduleSchema, req.params);
     if (error != null) {
@@ -24,10 +25,16 @@ const findOneSchedule = async (req, res) => {
                 deleted: 0,
                 scheduleId: value.scheduleId
             },
-            include: {
-                model: storeModel_1.StoreModel,
-                as: 'store'
-            }
+            include: [
+                {
+                    model: storeModel_1.StoreModel,
+                    as: 'store'
+                },
+                {
+                    model: todoListModel_1.TodoListModel,
+                    as: 'todoList'
+                }
+            ]
         });
         if (result == null) {
             const message = `Schedule not found with ID: ${value.scheduleId}`;

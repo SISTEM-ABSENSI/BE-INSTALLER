@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AttendanceHistoryModel = void 0;
+/* eslint-disable @typescript-eslint/indent */
 const sequelize_1 = require("sequelize");
 const index_1 = require("./index");
 const zygote_1 = require("./zygote");
