@@ -13,6 +13,19 @@ const user_1 = require("../../models/user");
 const updateMyProfile = async (req, res) => {
     const requestBody = req.body;
     try {
+        if ('userName' in requestBody) {
+            const userNameChek = await user_1.UserModel.findOne({
+                where: {
+                    deleted: 0,
+                    userName: { [sequelize_1.Op.eq]: requestBody.userName }
+                }
+            });
+            if (userNameChek !== null) {
+                const message = 'Username sudah digunakan!';
+                logger_1.default.info(`Login attempt failed: ${message}`);
+                return res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json(response_1.ResponseData.error(message));
+            }
+        }
         if ('userPassword' in requestBody) {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             requestBody.userPassword = require('crypto')

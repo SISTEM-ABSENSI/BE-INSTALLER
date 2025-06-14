@@ -32,9 +32,14 @@ const userLogin = async (req, res) => {
             logger_1.default.info(`Login attempt failed: ${message}`);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
         }
+        if (user?.userRole === 'user' && user.userDeviceId !== value?.userDeviceId) {
+            const message = 'Gagal Login! Pastikan anda login dengan device yang sama saat anda melakukan registrasi';
+            logger_1.default.info(`Login attempt failed: ${message}`);
+            return res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json(response_1.ResponseData.error(message));
+        }
         const isPasswordValid = (0, scure_password_1.hashPassword)(userPassword) === user.userPassword;
         if (!isPasswordValid) {
-            const message = 'Invalid email and password combination!';
+            const message = 'Invalid username and password combination!';
             logger_1.default.error(`Login attempt failed: ${message}`);
             return res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json(response_1.ResponseData.error(message));
         }

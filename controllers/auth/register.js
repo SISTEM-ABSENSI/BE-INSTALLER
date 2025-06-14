@@ -19,32 +19,33 @@ const userRegister = async (req, res) => {
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
-    const { userName, userPassword, userDeviceId } = value;
+    const { userName, userPassword, userDeviceId, userRole } = value;
     try {
         const existingUser = await user_2.UserModel.findOne({
-            raw: true,
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
                 userName: { [sequelize_1.Op.eq]: userName }
             }
         });
         if (existingUser != null) {
-            const message = `Username ${existingUser.userName} is already registered. Please use another one.`;
+            const message = `Username ${existingUser.userName} sudah terdaftar, gunakan yang lain`;
             logger_1.default.info(`Registration attempt failed: ${message}`);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
-        // const existingDevice = await UserModel.findOne({
-        //   raw: true,
-        //   where: {
-        //     deleted: { [Op.eq]: 0 },
-        //     userDeviceId: { [Op.eq]: userDeviceId }
-        //   }
-        // })
-        // if (existingDevice != null) {
-        //   const message = `Device is already registered. Please use another one.`
-        //   logger.info(`Registration attempt failed: ${message}`)
-        //   return res.status(StatusCodes.BAD_REQUEST).json(ResponseData.error(message))
-        // }
+        if (userRole === 'user') {
+            const existingDevice = await user_2.UserModel.findOne({
+                raw: true,
+                where: {
+                    deleted: { [sequelize_1.Op.eq]: 0 },
+                    userDeviceId: { [sequelize_1.Op.eq]: userDeviceId }
+                }
+            });
+            if (existingDevice !== null) {
+                const message = 'Device sudah terdaftar! gunakan device yang lain';
+                logger_1.default.info(`Login attempt failed: ${message}`);
+                return res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json(response_1.ResponseData.error(message));
+            }
+        }
         const hashedPassword = (0, scure_password_1.hashPassword)(userPassword);
         const newUser = {
             ...value,

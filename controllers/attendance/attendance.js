@@ -14,6 +14,9 @@ const scheduleModel_1 = require("../../models/scheduleModel");
 const attendanceHistoryModel_1 = require("../../models/attendanceHistoryModel");
 const moment_1 = __importDefault(require("moment"));
 const attendance = async (req, res) => {
+    console.log('___________value______');
+    console.log(req.body);
+    console.log('___________value______');
     const { error, value } = (0, validateRequest_1.validateRequest)(attendanceSchema_1.updateAttendanceSchema, {
         ...req.body
     });
@@ -32,8 +35,21 @@ const attendance = async (req, res) => {
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
         }
         const currentTime = (0, moment_1.default)().utcOffset('+07:00');
-        // const startDate = moment(scheduleRecord.scheduleStartDate)
+        const startDate = (0, moment_1.default)(scheduleRecord.scheduleStartDate);
         const endDate = (0, moment_1.default)(scheduleRecord.scheduleEndDate);
+        logger_1.default.info('-------------current time with +07 utc----------------');
+        logger_1.default.info(currentTime);
+        logger_1.default.info('-----------------end-------------');
+        const timeWithPureMoment = (0, moment_1.default)();
+        logger_1.default.info('-------------current time with pure moment----------------');
+        logger_1.default.info(timeWithPureMoment);
+        logger_1.default.info('-----------------end-------------');
+        logger_1.default.info('-------------start date----------------');
+        logger_1.default.info(startDate);
+        logger_1.default.info('-----------------end-------------');
+        logger_1.default.info('-------------end date----------------');
+        logger_1.default.info(endDate);
+        logger_1.default.info('-----------------end-------------');
         // // Check if trying to check in before start date
         // if (currentTime.isBefore(startDate)) {
         //   const message = 'Cannot check in before scheduled start time'
@@ -59,6 +75,7 @@ const attendance = async (req, res) => {
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
+        console.log(newStatus);
         await scheduleModel_1.ScheduleModel.update({ ...value, scheduleStatus: newStatus }, {
             where: { deleted: 0, scheduleId: value.attendanceId }
         });

@@ -18,8 +18,8 @@ const createStore = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        await storeModel_1.StoreModel.create(value);
-        const response = response_1.ResponseData.success();
+        const product = await storeModel_1.StoreModel.create(value);
+        const response = response_1.ResponseData.success(product);
         logger_1.default.info('Store created successfully');
         return res.status(http_status_codes_1.StatusCodes.CREATED).json(response);
     }

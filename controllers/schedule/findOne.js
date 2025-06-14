@@ -24,16 +24,10 @@ const findOneSchedule = async (req, res) => {
                 deleted: 0,
                 scheduleId: value.scheduleId
             },
-            include: [
-                {
-                    model: storeModel_1.StoreModel,
-                    as: 'store'
-                }
-                // {
-                //   model: TodoListModel,
-                //   as: 'todoList'
-                // }
-            ]
+            include: {
+                model: storeModel_1.StoreModel,
+                as: 'store'
+            }
         });
         if (result == null) {
             const message = `Schedule not found with ID: ${value.scheduleId}`;
