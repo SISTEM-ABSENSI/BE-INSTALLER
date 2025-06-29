@@ -10,21 +10,21 @@ const response_1 = require("../../utilities/response");
 const user_1 = require("../../models/user");
 const scure_password_1 = require("../../utilities/scure_password");
 const jwt_1 = require("../../utilities/jwt");
-const user_2 = require("../../schemas/user");
+const authSchema_1 = require("../../schemas/authSchema");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const userLogin = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(user_2.userLoginSchema, req.body);
+    const { error, value } = (0, validateRequest_1.validateRequest)(authSchema_1.userLoginSchema, req.body);
     if (error != null) {
         const message = `Invalid request parameter! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
-    const { userName, userPassword } = value;
+    const { userWhatsappNumber, userPassword } = value;
     try {
         const user = await user_1.UserModel.findOne({
             where: {
                 deleted: 0,
-                userName
+                userWhatsappNumber
             }
         });
         if (user == null) {
@@ -39,12 +39,12 @@ const userLogin = async (req, res) => {
         }
         const isPasswordValid = (0, scure_password_1.hashPassword)(userPassword) === user.userPassword;
         if (!isPasswordValid) {
-            const message = 'Invalid username and password combination!';
+            const message = 'Invalid whatsapp numbuer and password combination!';
             logger_1.default.error(`Login attempt failed: ${message}`);
             return res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json(response_1.ResponseData.error(message));
         }
         const token = (0, jwt_1.generateAccessToken)({ userId: user.userId, userRole: user.userRole });
-        logger_1.default.info(`User ${userName} logged in successfully`);
+        logger_1.default.info(`User ${user.userName} logged in successfully`);
         return res.status(http_status_codes_1.StatusCodes.OK).json(response_1.ResponseData.success({ token }));
     }
     catch (error) {

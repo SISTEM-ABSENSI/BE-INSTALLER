@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../../middlewares");
+const scheduleSwap_1 = require("../../controllers/scheduleSwap");
+const router = (0, express_1.Router)();
+router.get('/', middlewares_1.middleware.useAuthorization, scheduleSwap_1.scheduleSwapControllers.findAll);
+router.get('/detail/:scheduleSwapId', middlewares_1.middleware.useAuthorization, scheduleSwap_1.scheduleSwapControllers.findOne);
+router.post('/', middlewares_1.middleware.useAuthorization, scheduleSwap_1.scheduleSwapControllers.create);
+router.patch('/', middlewares_1.middleware.useAuthorization, scheduleSwap_1.scheduleSwapControllers.update);
+router.delete('/:scheduleSwapId', middlewares_1.middleware.useAuthorization, scheduleSwap_1.scheduleSwapControllers.remove);
+exports.default = router;

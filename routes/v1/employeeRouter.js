@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const middlewares_1 = require("../../middlewares");
+const employee_1 = require("../../controllers/employee");
+const router = (0, express_1.Router)();
+router.get('/', middlewares_1.middleware.useAuthorization, async (req, res) => await employee_1.employeeController.findAll(req, res));
+router.get('/detail/:employeeId', middlewares_1.middleware.useAuthorization, middlewares_1.middleware.allowRoles('admin', 'superAdmin'), async (req, res) => await employee_1.employeeController.findDetail(req, res));
+router.patch('/', middlewares_1.middleware.useAuthorization, middlewares_1.middleware.allowRoles('admin', 'superAdmin'), async (req, res) => await employee_1.employeeController.update(req, res));
+exports.default = router;

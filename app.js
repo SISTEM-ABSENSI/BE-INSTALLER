@@ -12,7 +12,7 @@ const v1_1 = require("./routes/v1");
 const configs_1 = require("./configs");
 const logger_1 = __importDefault(require("./utilities/logger"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const swagger_output_json_1 = __importDefault(require("./swagger_output.json"));
+const swagger_1 = __importDefault(require("./configs/swagger"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({ origin: true, credentials: true }));
 app.use(body_parser_1.default.urlencoded({ limit: '50mb', extended: true }));
@@ -24,7 +24,7 @@ app.use((0, morgan_1.default)('combined', {
         write: (message) => logger_1.default.info(message.trim())
     }
 }));
-app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_output_json_1.default));
+app.use('/api/v1/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.default));
 (0, v1_1.appRouterV1)(app);
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

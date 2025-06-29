@@ -20,7 +20,7 @@ const findMyProfile = async (req, res) => {
                 'userId',
                 'userName',
                 'userRole',
-                'userContact',
+                'userWhatsappNumber',
                 'createdAt',
                 'updatedAt'
             ]

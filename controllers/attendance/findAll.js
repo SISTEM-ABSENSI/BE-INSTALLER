@@ -9,21 +9,22 @@ const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const pagination_1 = require("../../utilities/pagination");
-const scheduleSchema_1 = require("../../schemas/scheduleSchema");
-const scheduleModel_1 = require("../../models/scheduleModel");
 const storeModel_1 = require("../../models/storeModel");
 const sequelize_1 = require("sequelize");
 const user_1 = require("../../models/user");
+const attendanceModel_1 = require("../../models/attendanceModel");
+const attendanceSchema_1 = require("../../schemas/attendanceSchema");
+const scheduleModel_1 = require("../../models/scheduleModel");
 const findAllAttendance = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(scheduleSchema_1.findAllScheduleSchema, req.query);
+    const { error, value } = (0, validateRequest_1.validateRequest)(attendanceSchema_1.findAllAttendanceSchema, req.query);
     if (error != null) {
         const message = `Invalid request query! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        const { page: queryPage, size: querySize, pagination, search, startDate, endDate } = value;
-        const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
+        const { page: queryPage, size: querySize, pagination, search, startDate, endDate, attendanceCategory, attendanceScheduleId } = value;
+        const page = new pagination_1.Pagination(pagination ? parseInt(queryPage) || 0 : 0, pagination ? parseInt(querySize) || 10 : undefined);
         const dateFilter = startDate && endDate
             ? {
                 createdAt: {
@@ -31,13 +32,18 @@ const findAllAttendance = async (req, res) => {
                 }
             }
             : {};
-        const result = await scheduleModel_1.ScheduleModel.findAndCountAll({
+        const result = await attendanceModel_1.AttendanceModel.findAndCountAll({
             where: {
                 deleted: 0,
                 ...(Boolean(req.body?.jwtPayload?.userRole === 'user') && {
-                    scheduleUserId: req.body?.jwtPayload?.userId
+                    attendanceUserId: req.body?.jwtPayload?.userId
                 }),
-                [sequelize_1.Op.or]: [{ scheduleStatus: 'checkin' }, { scheduleStatus: 'checkout' }],
+                ...(Boolean(attendanceCategory) && {
+                    attendanceCategory: attendanceCategory
+                }),
+                ...(Boolean(attendanceScheduleId) && {
+                    attendanceScheduleId: attendanceScheduleId
+                }),
                 ...dateFilter
             },
             include: [
@@ -53,9 +59,19 @@ const findAllAttendance = async (req, res) => {
                     ]
                 },
                 {
+                    model: scheduleModel_1.ScheduleModel,
+                    as: 'schedule'
+                },
+                {
                     model: user_1.UserModel,
                     as: 'user',
-                    attributes: ['userId', 'userName', 'userRole', 'userDeviceId', 'userContact'],
+                    attributes: [
+                        'userId',
+                        'userName',
+                        'userRole',
+                        'userDeviceId',
+                        'userWhatsappNumber'
+                    ],
                     where: search
                         ? {
                             [sequelize_1.Op.or]: [
@@ -65,7 +81,7 @@ const findAllAttendance = async (req, res) => {
                         : undefined
                 }
             ],
-            order: [['scheduleId', 'desc']],
+            order: [['attendanceId', 'desc']],
             ...(pagination === true && {
                 limit: page.limit,
                 offset: page.offset

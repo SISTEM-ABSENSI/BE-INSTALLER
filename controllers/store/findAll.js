@@ -11,6 +11,7 @@ const logger_1 = __importDefault(require("../../utilities/logger"));
 const pagination_1 = require("../../utilities/pagination");
 const storeSchema_1 = require("../../schemas/storeSchema");
 const storeModel_1 = require("../../models/storeModel");
+const sequelize_1 = require("sequelize");
 const findAllStore = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(storeSchema_1.findAllStoreSchema, req.query);
     if (error != null) {
@@ -19,12 +20,14 @@ const findAllStore = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        const { page: queryPage, size: querySize, pagination } = value;
-        console.log(value);
+        const { page: queryPage, size: querySize, pagination, search } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
         const result = await storeModel_1.StoreModel.findAndCountAll({
             where: {
-                deleted: 0
+                deleted: 0,
+                ...(Boolean(search) && {
+                    [sequelize_1.Op.or]: [{ storeName: { [sequelize_1.Op.like]: `%${search}%` } }]
+                })
             },
             order: [['storeId', 'desc']],
             ...(pagination === true && {

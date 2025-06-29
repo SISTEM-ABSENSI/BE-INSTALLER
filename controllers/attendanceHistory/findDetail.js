@@ -3,16 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findDetail = void 0;
+exports.findDetailAttendanceHistory = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const validateRequest_1 = require("../../utilities/validateRequest");
 const response_1 = require("../../utilities/response");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const pagination_1 = require("../../utilities/pagination");
 const attendanceHistorySchema_1 = require("../../schemas/attendanceHistorySchema");
-const attendanceHistoryModel_1 = require("../../models/attendanceHistoryModel");
-const findDetail = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(attendanceHistorySchema_1.findAllAttendanceHistoriesSchema, req.query);
+const attendanceModel_1 = require("../../models/attendanceModel");
+const findDetailAttendanceHistory = async (req, res) => {
+    const { error, value } = (0, validateRequest_1.validateRequest)(attendanceHistorySchema_1.findDetailAttendanceHistorySchema, req.params);
     if (error != null) {
         const message = `Invalid request query! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
@@ -21,20 +21,12 @@ const findDetail = async (req, res) => {
     try {
         const { page: queryPage, size: querySize, pagination } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
-        const result = await attendanceHistoryModel_1.AttendanceHistoryModel.findAndCountAll({
+        const result = await attendanceModel_1.AttendanceModel.findAndCountAll({
             where: {
                 deleted: 0,
-                attendanceHistoryScheduleId: value.attendanceHistoryScheduleId
+                attendanceId: value.attendanceHistoryId
             },
-            attributes: [
-                'attendanceHistoryId',
-                'attendanceHistoryUserId',
-                'attendanceHistoryTime',
-                'attendanceHistoryCategory',
-                'attendanceHistoryPhoto',
-                'attendanceHistoryScheduleId'
-            ],
-            order: [['attendanceHistoryId', 'desc']],
+            order: [['attendanceId', 'desc']],
             ...(pagination === 'true' && {
                 limit: page.limit,
                 offset: page.offset
@@ -51,4 +43,4 @@ const findDetail = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findDetail = findDetail;
+exports.findDetailAttendanceHistory = findDetailAttendanceHistory;

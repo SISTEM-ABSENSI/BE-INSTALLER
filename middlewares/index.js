@@ -2,4 +2,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.middleware = void 0;
 const access_1 = require("./access");
-exports.middleware = { useAuthorization: access_1.useAuthorization };
+const roleGuard_1 = require("./roleGuard");
+exports.middleware = { useAuthorization: access_1.useAuthorization, allowRoles: roleGuard_1.allowRoles };

@@ -3,21 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllAttendanceHistoriesSchema = exports.findOneAttendanceHistorySchema = exports.updateAttendanceHistorySchema = exports.attendanceHistorySchema = void 0;
+exports.findAllAttendanceHistoriesSchema = exports.findDetailAttendanceHistorySchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const jwtPayloadSchema_1 = require("./jwtPayloadSchema");
-exports.attendanceHistorySchema = joi_1.default.object({
-    attendanceHistoryId: joi_1.default.number().integer().positive().required(),
-    attendanceHistoryUserId: joi_1.default.number().integer().positive().required(),
-    attendanceHistoryTime: joi_1.default.string().isoDate().required(),
-    attendanceHistoryPhoto: joi_1.default.string().required(),
-    attendanceHistoryCategory: joi_1.default.string().valid('checkin', 'checkout').required()
-});
-exports.updateAttendanceHistorySchema = joi_1.default.object({
-    jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
-    attendanceHistory: exports.attendanceHistorySchema.required()
-});
-exports.findOneAttendanceHistorySchema = joi_1.default.object({
+exports.findDetailAttendanceHistorySchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
     attendanceHistoryId: joi_1.default.number().integer().positive().required()
 });

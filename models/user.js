@@ -5,7 +5,6 @@ exports.UserModel = void 0;
 const sequelize_1 = require("sequelize");
 const _1 = require(".");
 const zygote_1 = require("./zygote");
-// Define the UserModel
 exports.UserModel = _1.sequelize.define('Users', {
     ...zygote_1.ZygoteModel,
     userId: {
@@ -21,6 +20,10 @@ exports.UserModel = _1.sequelize.define('Users', {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
+    userWhatsappNumber: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
     userRole: {
         type: sequelize_1.DataTypes.ENUM('admin', 'superAdmin', 'user'),
         allowNull: false,
@@ -30,16 +33,12 @@ exports.UserModel = _1.sequelize.define('Users', {
         type: sequelize_1.DataTypes.STRING,
         allowNull: true,
         defaultValue: '_'
-    },
-    userContact: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: true
     }
 }, {
     tableName: 'users',
-    timestamps: true, // Setting timestamps to true for createdAt and updatedAt
-    paranoid: true, // Enables soft deletes with deletedAt
-    underscored: true, // Converts camelCase to snake_case for columns
-    freezeTableName: true, // Disables plural table names
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+    freezeTableName: true,
     engine: 'InnoDB'
 });

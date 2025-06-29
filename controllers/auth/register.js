@@ -7,33 +7,33 @@ exports.userRegister = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const sequelize_1 = require("sequelize");
 const validateRequest_1 = require("../../utilities/validateRequest");
-const user_1 = require("../../schemas/user");
+const authSchema_1 = require("../../schemas/authSchema");
 const response_1 = require("../../utilities/response");
-const user_2 = require("../../models/user");
+const user_1 = require("../../models/user");
 const scure_password_1 = require("../../utilities/scure_password");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const userRegister = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(user_1.userRegistrationSchema, req.body);
+    const { error, value } = (0, validateRequest_1.validateRequest)(authSchema_1.userRegistrationSchema, req.body);
     if (error != null) {
         const message = `Invalid request parameter! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
-    const { userName, userPassword, userDeviceId, userRole } = value;
+    const { userName, userPassword, userWhatsappNumber, userDeviceId, userRole } = value;
     try {
-        const existingUser = await user_2.UserModel.findOne({
+        const existingUser = await user_1.UserModel.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                userName: { [sequelize_1.Op.eq]: userName }
+                userWhatsappNumber: { [sequelize_1.Op.eq]: userWhatsappNumber }
             }
         });
         if (existingUser != null) {
-            const message = `Username ${existingUser.userName} sudah terdaftar, gunakan yang lain`;
+            const message = `Nomor Whatsapp ${existingUser.userWhatsappNumber} sudah terdaftar, gunakan yang lain`;
             logger_1.default.info(`Registration attempt failed: ${message}`);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
         if (userRole === 'user') {
-            const existingDevice = await user_2.UserModel.findOne({
+            const existingDevice = await user_1.UserModel.findOne({
                 raw: true,
                 where: {
                     deleted: { [sequelize_1.Op.eq]: 0 },
@@ -51,7 +51,7 @@ const userRegister = async (req, res) => {
             ...value,
             userPassword: hashedPassword
         };
-        await user_2.UserModel.create(newUser);
+        await user_1.UserModel.create(newUser);
         logger_1.default.info(`User ${userName} registered successfully`);
         return res
             .status(http_status_codes_1.StatusCodes.CREATED)

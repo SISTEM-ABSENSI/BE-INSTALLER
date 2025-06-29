@@ -10,8 +10,16 @@ const sequelize_1 = require("sequelize");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const configs_1 = require("../../configs");
 const user_1 = require("../../models/user");
+const validateRequest_1 = require("../../utilities/validateRequest");
+const myProfileSchema_1 = require("../../schemas/myProfileSchema");
 const updateMyProfile = async (req, res) => {
-    const requestBody = req.body;
+    const { error, value } = (0, validateRequest_1.validateRequest)(myProfileSchema_1.updateMyProfileSchema, req.body);
+    if (error != null) {
+        const message = `Invalid request body! ${error.details.map((x) => x.message).join(', ')}`;
+        logger_1.default.warn(message);
+        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
+    }
+    const requestBody = value;
     try {
         if ('userName' in requestBody) {
             const userNameChek = await user_1.UserModel.findOne({
@@ -43,8 +51,8 @@ const updateMyProfile = async (req, res) => {
             ...(requestBody?.userRole?.length > 0 && {
                 userRole: requestBody?.userRole
             }),
-            ...(requestBody?.userContact?.length > 0 && {
-                userContact: requestBody?.userContact
+            ...(requestBody?.userWhatsappNumber?.length > 0 && {
+                userWhatsappNumber: requestBody?.userWhatsappNumber
             })
         };
         await user_1.UserModel.update(newData, {

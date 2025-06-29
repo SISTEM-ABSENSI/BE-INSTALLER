@@ -3,16 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.remove = void 0;
+exports.removeAdmin = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const response_1 = require("../../utilities/response");
 const sequelize_1 = require("sequelize");
 const user_1 = require("../../models/user");
 const validateRequest_1 = require("../../utilities/validateRequest");
-const user_2 = require("../../schemas/user");
 const logger_1 = __importDefault(require("../../utilities/logger"));
-const remove = async (req, res) => {
-    const { error, value } = (0, validateRequest_1.validateRequest)(user_2.findOneUserSchema, req.query);
+const adminSchema_1 = require("../../schemas/adminSchema");
+const removeAdmin = async (req, res) => {
+    const { error, value } = (0, validateRequest_1.validateRequest)(adminSchema_1.removeAdminSchema, req.params);
     if (error != null) {
         const message = `Invalid request parameter! ${error.details.map((x) => x.message).join(', ')}`;
         logger_1.default.warn(message);
@@ -44,4 +44,4 @@ const remove = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.remove = remove;
+exports.removeAdmin = removeAdmin;

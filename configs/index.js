@@ -15,11 +15,19 @@ exports.APP_CONFIGS = {
     port: process.env.APP_PORT ?? 8000,
     log: process.env.APP_LOG === 'true',
     ipBlackList: JSON.parse(process.env.IP_BLACK_LIST ?? '[]'),
+    redis: {
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT
+    },
     secret: {
         keyEncryption: process.env.SECRET_KEY_ENCRYPTION,
         passwordEncryption: process.env.SECRET_PASSWORD_ENCRYPTION,
         pinEncryption: process.env.SECRET_PIN_ENCRYPTION,
         token: process.env.TOKEN_SECRET
+    },
+    wablas: {
+        url: process.env.WABLAS_URL,
+        token: `${process.env.WABLAS_API_KEY}.${process.env.WABLAS_SECRET_KEY}`
     },
     maximumUploadFile: process.env.MAXIMUM_UPLOAD_FILE ?? 1024,
     dataBase: {
@@ -28,6 +36,11 @@ exports.APP_CONFIGS = {
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
             host: process.env.DB_HOST,
+            timezone: '+07:00',
+            dialectOptions: {
+                dateStrings: true,
+                typeCast: true
+            },
             dialect: process.env.DB_DIALECT,
             logging: process.env.DB_LOG === 'true',
             port: parseInt(process.env.DB_PORT ?? '3306')

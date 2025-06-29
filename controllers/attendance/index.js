@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.attendanceController = void 0;
-const attendance_1 = require("./attendance");
+const create_1 = require("./create");
 const findAll_1 = require("./findAll");
-const findOne_1 = require("./findOne");
+const findDetail_1 = require("./findDetail");
+const findLastAttendance_1 = require("./findLastAttendance");
 exports.attendanceController = {
-    attendance: attendance_1.attendance,
-    findAllAttendance: findAll_1.findAllAttendance,
-    findOneAttendance: findOne_1.findOneAttendance
+    create: create_1.createAttendance,
+    findAll: findAll_1.findAllAttendance,
+    findDetail: findDetail_1.findDetailAttendance,
+    findLastAttendance: findLastAttendance_1.findLastAttendance
 };
