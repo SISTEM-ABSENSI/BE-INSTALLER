@@ -37,6 +37,18 @@ exports.AttendanceModel = index_1.sequelize.define('Attendances', {
     attendancePhoto: {
         type: sequelize_1.DataTypes.TEXT,
         allowNull: true
+    },
+    attendanceLatitude: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    attendanceLongitude: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true
+    },
+    attendanceDistanceFromStore: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: true
     }
 }, {
     tableName: 'attendances',

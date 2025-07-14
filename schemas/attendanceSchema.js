@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllAttendanceSchema = exports.findLastAttendanceSchema = exports.findDetailAttendanceSchema = exports.createAttendanceSchema = void 0;
+exports.findAllAttendanceSchema = exports.findAllLastStatusAttendanceSchema = exports.findLastAttendanceSchema = exports.findDetailAttendanceSchema = exports.createAttendanceSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const jwtPayloadSchema_1 = require("./jwtPayloadSchema");
 exports.createAttendanceSchema = joi_1.default.object({
@@ -13,7 +13,10 @@ exports.createAttendanceSchema = joi_1.default.object({
     attendancePhoto: joi_1.default.string().optional().allow(''),
     attendanceCategory: joi_1.default.string()
         .valid('checkin', 'checkout', 'breakin', 'breakout', 'otin', 'otout')
-        .required()
+        .required(),
+    attendanceLatitude: joi_1.default.number().optional().allow(''),
+    attendanceLongitude: joi_1.default.number().optional().allow(''),
+    attendanceDistanceFromStore: joi_1.default.number().optional().allow('')
 });
 exports.findDetailAttendanceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -22,6 +25,9 @@ exports.findDetailAttendanceSchema = joi_1.default.object({
 exports.findLastAttendanceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
     scheduleId: joi_1.default.number().integer().positive().required()
+});
+exports.findAllLastStatusAttendanceSchema = joi_1.default.object({
+    jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema
 });
 exports.findAllAttendanceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -32,6 +38,10 @@ exports.findAllAttendanceSchema = joi_1.default.object({
     startDate: joi_1.default.string().allow('').optional(),
     endDate: joi_1.default.string().allow('').optional(),
     attendanceScheduleId: joi_1.default.number().integer().positive().optional(),
+    storeId: joi_1.default.alternatives()
+        .try(joi_1.default.number(), joi_1.default.string().empty(''))
+        .optional()
+        .allow(null),
     attendanceCategory: joi_1.default.string()
         .valid('checkin', 'checkout', 'breakin', 'breakout', 'otin', 'otout')
         .optional()

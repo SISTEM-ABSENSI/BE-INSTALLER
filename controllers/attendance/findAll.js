@@ -23,7 +23,7 @@ const findAllAttendance = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
     try {
-        const { page: queryPage, size: querySize, pagination, search, startDate, endDate, attendanceCategory, attendanceScheduleId } = value;
+        const { page: queryPage, size: querySize, pagination, search, startDate, endDate, attendanceCategory, attendanceScheduleId, storeId } = value;
         const page = new pagination_1.Pagination(pagination ? parseInt(queryPage) || 0 : 0, pagination ? parseInt(querySize) || 10 : undefined);
         const dateFilter = startDate && endDate
             ? {
@@ -43,6 +43,9 @@ const findAllAttendance = async (req, res) => {
                 }),
                 ...(Boolean(attendanceScheduleId) && {
                     attendanceScheduleId: attendanceScheduleId
+                }),
+                ...(Boolean(storeId) && {
+                    attendanceStoreId: storeId
                 }),
                 ...dateFilter
             },

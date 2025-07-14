@@ -85,6 +85,18 @@
  */
 /**
  * @swagger
+ * /api/v1/stores/names:
+ *   get:
+ *     summary: Get all stores names
+ *     tags: [STORES]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of stores name
+ */
+/**
+ * @swagger
  * /api/v1/stores/detail/{storeId}:
  *   get:
  *     summary: Get store detail by ID

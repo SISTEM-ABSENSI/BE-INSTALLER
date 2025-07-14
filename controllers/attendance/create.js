@@ -12,6 +12,7 @@ const scheduleModel_1 = require("../../models/scheduleModel");
 const attendanceModel_1 = require("../../models/attendanceModel");
 const attendanceSchema_1 = require("../../schemas/attendanceSchema");
 const moment_1 = __importDefault(require("moment"));
+const sequelize_1 = require("sequelize");
 const createAttendance = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(attendanceSchema_1.createAttendanceSchema, {
         ...req.body
@@ -34,6 +35,19 @@ const createAttendance = async (req, res) => {
             const message = 'Schedule not found';
             logger_1.default.warn(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response_1.ResponseData.error(message));
+        }
+        const checkExistingActiveschedule = await scheduleModel_1.ScheduleModel.findOne({
+            where: {
+                deleted: 0,
+                scheduleId: { [sequelize_1.Op.not]: payload.attendanceScheduleId },
+                scheduleStatus: 'progress',
+                scheduleUserId: req.body?.jwtPayload?.userId
+            }
+        });
+        if (checkExistingActiveschedule && payload.attendanceCategory === 'checkin') {
+            const message = `Active schedule found (${checkExistingActiveschedule.scheduleName}), can't create new attendance`;
+            logger_1.default.warn(message);
+            return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
         }
         if (payload.attendanceCategory === 'checkin') {
             await scheduleModel_1.ScheduleModel.update({ ...value, scheduleStatus: 'progress' }, {

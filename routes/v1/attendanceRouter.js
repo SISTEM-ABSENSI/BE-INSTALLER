@@ -8,5 +8,6 @@ const router = (0, express_1.Router)();
 router.get('/', middlewares_1.middleware.useAuthorization, attendance_1.attendanceController.findAll);
 router.get('/detail/:attendanceId', middlewares_1.middleware.useAuthorization, attendance_1.attendanceController.findDetail);
 router.get('/last-status', middlewares_1.middleware.useAuthorization, attendance_1.attendanceController.findLastAttendance);
+router.get('/last-all-status', middlewares_1.middleware.useAuthorization, attendance_1.attendanceController.findAllLastStatusAttendance);
 router.post('/', middlewares_1.middleware.useAuthorization, attendance_1.attendanceController.create);
 exports.default = router;

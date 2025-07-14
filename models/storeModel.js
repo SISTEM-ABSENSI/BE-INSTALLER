@@ -27,10 +27,6 @@ exports.StoreModel = index_1.sequelize.define('Stores', {
     storeLatitude: {
         type: sequelize_1.DataTypes.STRING(100),
         allowNull: false
-    },
-    createdAt: {
-        type: sequelize_1.DataTypes.DATE,
-        defaultValue: sequelize_1.DataTypes.NOW
     }
 }, {
     tableName: 'stores',

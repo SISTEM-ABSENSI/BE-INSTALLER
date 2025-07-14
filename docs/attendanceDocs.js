@@ -19,11 +19,23 @@
  *           type: string
  *           enum: [checkin, checkout]
  *           example: checkin
+ *         attendanceLatitude:
+ *           type: string
+ *           example: 37.7749
+ *         attendanceLongitude:
+ *          type: string
+ *          example: -122.4194
+ *         attendanceDistanceFromStore:
+ *          type: number
+ *          example: 100
  *       required:
  *         - attendanceScheduleId
  *         - attendanceStoreId
  *         - attendancePhoto
  *         - attendanceCategory
+ *         - attendanceLatitude
+ *         - attendanceLongitude
+ *         - attendanceDistanceFromStore
  */
 /**
  * @swagger
@@ -59,6 +71,20 @@
  *         required: true
  *         schema:
  *           type: integer
+ *     responses:
+ *       200:
+ *         description: Attendance detail
+ *       404:
+ *         description: Attendance not found
+ */
+/**
+ * @swagger
+ * /api/v1/attendances/last-all-status:
+ *   get:
+ *     summary: Get last attendance status
+ *     tags: [ATTENDANCES]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Attendance detail

@@ -15,7 +15,7 @@ exports.userRegistrationSchema = joi_1.default.object({
     userWhatsappNumber: joi_1.default.string().required(),
     userPassword: joi_1.default.string().min(6).required(),
     userRole: joi_1.default.string().valid('admin', 'superAdmin', 'user').required(),
-    userDeviceId: joi_1.default.string().optional().allow('')
+    userDeviceId: joi_1.default.string().required()
 });
 exports.userUpdatePasswordSchema = joi_1.default.object({
     userPassword: joi_1.default.string().min(6).required(),

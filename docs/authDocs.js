@@ -11,10 +11,10 @@
  *           example: John Doe
  *         userWhatsappNumber:
  *           type: string
- *           example: 6284455334434
+ *           example: 6281234567890
  *         userPassword:
  *           type: string
- *           example: secret123
+ *           example: qwerty
  *         userRole:
  *           type: string
  *           example: user
@@ -26,13 +26,13 @@
  *       properties:
  *         userWhatsappNumber:
  *           type: string
- *           example: 6284455334434
+ *           example: 6281234567891
  *         userPassword:
  *           type: string
- *           example: secret123
+ *           example: qwerty
  *         userDeviceId:
  *           type: string
- *           example: _
+ *           example: RP1A.200720.012.A105GDXS8CVL5
  */
 /**
  * @swagger
