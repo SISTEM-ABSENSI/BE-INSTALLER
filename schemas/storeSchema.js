@@ -12,6 +12,8 @@ exports.createStoreSchema = joi_1.default.object({
     storeAddress: joi_1.default.string().required(),
     storeLongitude: joi_1.default.string().max(100).required(),
     storeLatitude: joi_1.default.string().max(100).required(),
+    storeMaximumDistanceAttendance: joi_1.default.number().integer().positive().default(10),
+    storeWifiMacAddress: joi_1.default.string().max(250).optional(),
     createdAt: joi_1.default.date().optional()
 });
 exports.updateStoreSchema = joi_1.default.object({
@@ -21,6 +23,12 @@ exports.updateStoreSchema = joi_1.default.object({
     storeAddress: joi_1.default.string().allow('').required(),
     storeLongitude: joi_1.default.string().allow('').max(100).optional(),
     storeLatitude: joi_1.default.string().allow('').max(100).optional(),
+    storeMaximumDistanceAttendance: joi_1.default.number()
+        .integer()
+        .positive()
+        .default(10)
+        .optional(),
+    storeWifiMacAddress: joi_1.default.string().allow('').max(250).optional()
 });
 exports.deleteStoreSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,

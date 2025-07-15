@@ -18,15 +18,18 @@
  *         storeLatitude:
  *           type: string
  *           example: "-6.2145"
- *         createdAt:
- *           type: string
- *           format: date-time
- *           example: "2025-04-05T10:00:00Z"
+ *         storeMaximumDistanceAttendance:
+ *          type: number
+ *          example: 10
+ *         storeWifiMacAddress:
+ *          type: string
+ *          example: "00:1A:2B:3C:4D:5E"
  *       required:
  *         - storeName
  *         - storeAddress
  *         - storeLongitude
  *         - storeLatitude
+ *         - storeMaximumDistanceAttendance
  *
  *     IStoreUpdateRequest:
  *       type: object
@@ -49,10 +52,17 @@
  *           type: string
  *           nullable: true
  *           example: "-6.2145"
+ *         storeMaximumDistanceAttendance:
+ *           type: number
+ *           example: 10
+ *         storeWifiMacAddress:
+ *           type: string
+ *
  *       required:
  *         - jwtPayload
  *         - storeId
  *         - storeAddress
+ *         - storeMaximumDistanceAttendance
  */
 /**
  * @swagger

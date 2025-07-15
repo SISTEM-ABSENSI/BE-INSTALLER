@@ -46,7 +46,7 @@
  *       properties:
  *         userWhatsappNumber:
  *           type: string
- *           example: 62822222222222
+ *           example: 6281234567894
  *         userPassword:
  *           type: string
  *           example: qwerty

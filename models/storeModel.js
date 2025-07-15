@@ -27,6 +27,15 @@ exports.StoreModel = index_1.sequelize.define('Stores', {
     storeLatitude: {
         type: sequelize_1.DataTypes.STRING(100),
         allowNull: false
+    },
+    storeMaximumDistanceAttendance: {
+        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+        defaultValue: 1000
+    },
+    storeWifiMacAddress: {
+        type: sequelize_1.DataTypes.STRING(250),
+        allowNull: true
     }
 }, {
     tableName: 'stores',

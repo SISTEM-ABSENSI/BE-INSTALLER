@@ -58,7 +58,9 @@ const findAllAttendance = async (req, res) => {
                         'storeName',
                         'storeAddress',
                         'storeLongitude',
-                        'storeLatitude'
+                        'storeLatitude',
+                        'storeMaximumDistanceAttendance',
+                        'storeWifiMacAddress'
                     ]
                 },
                 {
