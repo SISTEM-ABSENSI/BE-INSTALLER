@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 /**
  * @swagger
  * components:
@@ -54,7 +54,7 @@
  *               items:
  *                 $ref: '#/components/schemas/AttendanceReport'
  *
- * /api/v1/attendances/reports:
+ * /attendance/api/v1/attendances/reports:
  *   get:
  *     summary: Retrieve attendance report
  *     tags: [ATTENDANCES-REPORTS]
