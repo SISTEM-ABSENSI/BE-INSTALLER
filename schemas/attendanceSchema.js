@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllAttendanceSchema = exports.findAllLastStatusAttendanceSchema = exports.findLastAttendanceSchema = exports.findDetailAttendanceSchema = exports.createAttendanceSchema = void 0;
+exports.findAttendanceReportSchema = exports.findAllAttendanceSchema = exports.findAllLastStatusAttendanceSchema = exports.findLastAttendanceSchema = exports.findDetailAttendanceSchema = exports.createAttendanceSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const jwtPayloadSchema_1 = require("./jwtPayloadSchema");
 exports.createAttendanceSchema = joi_1.default.object({
@@ -46,4 +46,31 @@ exports.findAllAttendanceSchema = joi_1.default.object({
         .valid('checkin', 'checkout', 'breakin', 'breakout', 'otin', 'otout')
         .optional()
         .allow('')
+});
+exports.findAttendanceReportSchema = joi_1.default.object({
+    startDate: joi_1.default.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .optional()
+        .messages({
+        'string.pattern.base': 'Start date must be in YYYY-MM-DD format'
+    }),
+    endDate: joi_1.default.string()
+        .pattern(/^\d{4}-\d{2}-\d{2}$/)
+        .optional()
+        .messages({
+        'string.pattern.base': 'End date must be in YYYY-MM-DD format'
+    }),
+    page: joi_1.default.number().integer().min(0).optional().messages({
+        'number.base': 'Page must be a number',
+        'number.integer': 'Page must be an integer',
+        'number.min': 'Page must be at least 0'
+    }),
+    size: joi_1.default.number().integer().min(1).optional().messages({
+        'number.base': 'Size must be a number',
+        'number.integer': 'Size must be an integer',
+        'number.min': 'Size must be at least 1'
+    }),
+    pagination: joi_1.default.boolean().optional().messages({
+        'boolean.base': 'Pagination must be a boolean'
+    })
 });
