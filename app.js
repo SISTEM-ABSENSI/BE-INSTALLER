@@ -30,12 +30,12 @@ app.use(
   })
 )
 app.use(
-  '/attendance/api/v1/docs',
+  '/docs',
   swagger_ui_express_1.default.serve,
   swagger_ui_express_1.default.setup(swagger_1.default)
 )
 app.use(
-  '/attendance/api/v1/publics',
+  '/publics',
   swagger_ui_express_1.default.serve,
   swagger_ui_express_1.default.setup(swaggerPublic_1.default)
 )
