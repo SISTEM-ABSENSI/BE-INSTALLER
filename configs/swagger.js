@@ -54,7 +54,7 @@ const options = {
       description: 'Schedule Swaps-related endpoints'
     }
   ],
-  apis: ['./apps/docs/*.js']
+  apis: ['./docs/*.js']
 }
 const swaggerSpec = (0, swagger_jsdoc_1.default)(options)
 exports.default = swaggerSpec

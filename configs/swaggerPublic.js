@@ -28,7 +28,7 @@ const options = {
       }
     ]
   },
-  apis: ['./apps/docs/public/*.js']
+  apis: ['./docs/public/*.js']
 }
 const swaggerSpecPublic = (0, swagger_jsdoc_1.default)(options)
 exports.default = swaggerSpecPublic
