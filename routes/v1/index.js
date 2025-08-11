@@ -18,6 +18,7 @@ const myProfileRouter_1 = __importDefault(require("./myProfileRouter"));
 const storeLocationRouter_1 = __importDefault(require("./storeLocationRouter"));
 const otpRouter_1 = __importDefault(require("./otpRouter"));
 const resetDeviceRouter_1 = __importDefault(require("./resetDeviceRouter"));
+const reportRouter_1 = __importDefault(require("./reportRouter"));
 const apiVersion = '/api/v1';
 const appRouterV1 = (app) => {
     app.use(apiVersion, appCheckRouter_1.default);
@@ -34,5 +35,6 @@ const appRouterV1 = (app) => {
     app.use(apiVersion + '/store-locations', storeLocationRouter_1.default);
     app.use(apiVersion + '/otp', otpRouter_1.default);
     app.use(apiVersion + '/reset-devices', resetDeviceRouter_1.default);
+    app.use(apiVersion + '/reports', reportRouter_1.default);
 };
 exports.appRouterV1 = appRouterV1;
