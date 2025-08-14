@@ -46,7 +46,7 @@ const findAllReportAttendance = async (req, res) => {
     let endQueryDate = endDate
     if (startDate === undefined || endDate === undefined) {
       endQueryDate = (0, moment_1.default)().format('YYYY-MM-DD')
-      startQueryDate = (0, moment_1.default)().subtract(7, 'days').format('YYYY-MM-DD')
+      startQueryDate = (0, moment_1.default)().subtract(1, 'days').format('YYYY-MM-DD')
     }
     const users = await user_1.UserModel.findAll({
       where: {
@@ -70,6 +70,7 @@ const findAllReportAttendance = async (req, res) => {
           id: key,
           userName: user.userName,
           scheduleStartDate: null,
+          scheduleStoreId: null,
           date: dateKey,
           checkinAt: null,
           checkoutAt: null,
@@ -86,17 +87,23 @@ const findAllReportAttendance = async (req, res) => {
       where: {
         deleted: { [sequelize_1.Op.eq]: 0 },
         scheduleUserId: { [sequelize_1.Op.in]: userIds },
+        ...(Boolean(value?.storeId) && {
+          scheduleStoreId: value?.storeId
+        }),
         scheduleStartDate: {
           [sequelize_1.Op.between]: [startQueryDate, endQueryDate]
         }
       },
-      attributes: ['scheduleUserId', 'scheduleStartDate']
+      attributes: ['scheduleUserId', 'scheduleStartDate', 'scheduleStoreId']
     })
     // Step 3: Ambil semua kehadiran dalam rentang tanggal
     const attendances = await attendanceModel_1.AttendanceModel.findAll({
       where: {
         deleted: { [sequelize_1.Op.eq]: 0 },
         attendanceUserId: { [sequelize_1.Op.in]: userIds },
+        ...(Boolean(value?.storeId) && {
+          attendanceStoreId: value?.storeId
+        }),
         attendanceTime: {
           // Menggunakan attendanceTime, bukan createdAt
           [sequelize_1.Op.between]: [
@@ -118,6 +125,7 @@ const findAllReportAttendance = async (req, res) => {
       const reportItem = reportData.get(key)
       if (reportItem !== undefined) {
         reportItem.scheduleStartDate = schedule.scheduleStartDate
+        reportItem.scheduleStoreId = schedule.scheduleStoreId
       }
     })
     // Step 5: Gabungkan data kehadiran ke dalam laporan
