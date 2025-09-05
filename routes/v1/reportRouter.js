@@ -5,4 +5,6 @@ const middlewares_1 = require("../../middlewares");
 const reports_1 = require("../../controllers/reports");
 const router = (0, express_1.Router)();
 router.get('/', middlewares_1.middleware.useAuthorization, async (req, res) => await reports_1.reportController.findAll(req, res));
+router.get('/realtimes', middlewares_1.middleware.useAuthorization, async (req, res) => await reports_1.reportController.findAllRealtimeReport(req, res));
+router.post('/locations/realtimes', middlewares_1.middleware.useAuthorization, async (req, res) => await reports_1.reportController.locationTracker(req, res));
 exports.default = router;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllReportAttendance = void 0;
+exports.findAllRealtimeReport = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const sequelize_1 = require("sequelize");
 const validateRequest_1 = require("../../utilities/validateRequest");
@@ -15,22 +15,23 @@ const attendanceSchema_1 = require("../../schemas/attendanceSchema");
 const pagination_1 = require("../../utilities/pagination");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const moment_1 = __importDefault(require("moment"));
-const findAllReportAttendance = async (req, res) => {
+const findAllRealtimeReport = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(attendanceSchema_1.findAllAttendanceSchema, req.query);
     if (error != null) {
-        const message = `Invalid query parameter! ${error.details.map((x) => x.message).join(', ')}`;
+        const message = `Invalid query parameter! ${error.details
+            .map((x) => x.message)
+            .join(', ')}`;
         logger_1.default.warn(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response_1.ResponseData.error(message));
     }
-    const { page: queryPage, size: querySize, search, pagination, startDate, endDate } = value;
+    const { page: queryPage, size: querySize, search, pagination } = value;
     try {
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
-        let startQueryDate = startDate;
-        let endQueryDate = endDate;
-        if (startDate === undefined || endDate === undefined) {
-            endQueryDate = (0, moment_1.default)().format('YYYY-MM-DD');
-            startQueryDate = (0, moment_1.default)().subtract(1, 'days').format('YYYY-MM-DD');
-        }
+        // Ambil tanggal hari ini
+        const today = (0, moment_1.default)().format('YYYY-MM-DD');
+        const todayStart = `${today} 00:00:00`;
+        const todayEnd = `${today} 23:59:59`;
+        // Step 1: Ambil semua user
         const users = await user_1.UserModel.findAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
@@ -42,30 +43,25 @@ const findAllReportAttendance = async (req, res) => {
             attributes: ['userId', 'userName']
         });
         const userIds = users.map((user) => user.userId);
+        // Siapkan map untuk report hari ini
         const reportData = new Map();
         users.forEach((user) => {
-            const currentDate = (0, moment_1.default)(startQueryDate);
-            const lastDate = (0, moment_1.default)(endQueryDate);
-            while (currentDate.isSameOrBefore(lastDate, 'day')) {
-                const dateKey = currentDate.format('YYYY-MM-DD');
-                const key = `${user.userId}-${dateKey}`;
-                reportData.set(key, {
-                    id: key,
-                    userName: user.userName,
-                    scheduleStartDate: null,
-                    scheduleStoreId: null,
-                    date: dateKey,
-                    checkinAt: null,
-                    checkoutAt: null,
-                    breakinAt: null,
-                    breakoutAt: null,
-                    otinAt: null,
-                    otoutAt: null
-                });
-                currentDate.add(1, 'day');
-            }
+            const key = `${user.userId}-${today}`;
+            reportData.set(key, {
+                id: key,
+                userName: user.userName,
+                scheduleStartDate: null,
+                scheduleStoreId: null,
+                date: today,
+                checkinAt: null,
+                checkoutAt: null,
+                breakinAt: null,
+                breakoutAt: null,
+                otinAt: null,
+                otoutAt: null
+            });
         });
-        // Step 2: Ambil semua jadwal dalam rentang tanggal
+        // Step 2: Ambil jadwal untuk hari ini
         const schedules = await scheduleModel_1.ScheduleModel.findAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
@@ -74,12 +70,22 @@ const findAllReportAttendance = async (req, res) => {
                     scheduleStoreId: value?.storeId
                 }),
                 scheduleStartDate: {
-                    [sequelize_1.Op.between]: [startQueryDate, endQueryDate]
+                    [sequelize_1.Op.between]: [todayStart, todayEnd]
                 }
             },
             attributes: ['scheduleUserId', 'scheduleStartDate', 'scheduleStoreId']
         });
-        // Step 3: Ambil semua kehadiran dalam rentang tanggal
+        schedules.forEach((schedule) => {
+            const userId = schedule.scheduleUserId;
+            const scheduleDate = (0, moment_1.default)(schedule.scheduleStartDate).format('YYYY-MM-DD');
+            const key = `${userId}-${scheduleDate}`;
+            const reportItem = reportData.get(key);
+            if (reportItem) {
+                reportItem.scheduleStartDate = schedule.scheduleStartDate;
+                reportItem.scheduleStoreId = schedule.scheduleStoreId;
+            }
+        });
+        // Step 3: Ambil kehadiran untuk hari ini
         const attendances = await attendanceModel_1.AttendanceModel.findAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
@@ -88,31 +94,17 @@ const findAllReportAttendance = async (req, res) => {
                     attendanceStoreId: value?.storeId
                 }),
                 attendanceTime: {
-                    // Menggunakan attendanceTime, bukan createdAt
-                    [sequelize_1.Op.between]: [`${startQueryDate} 00:00:00`, `${endQueryDate} 23:59:59`]
+                    [sequelize_1.Op.between]: [todayStart, todayEnd]
                 }
             },
             attributes: ['attendanceUserId', 'attendanceCategory', 'attendanceTime']
         });
-        // Step 4: Gabungkan data jadwal ke dalam laporan
-        schedules.forEach((schedule) => {
-            const userId = schedule.scheduleUserId;
-            // Ambil tanggal saja dari scheduleStartDate
-            const scheduleDate = (0, moment_1.default)(schedule.scheduleStartDate).format('YYYY-MM-DD');
-            const key = `${userId}-${scheduleDate}`;
-            const reportItem = reportData.get(key);
-            if (reportItem !== undefined) {
-                reportItem.scheduleStartDate = schedule.scheduleStartDate;
-                reportItem.scheduleStoreId = schedule.scheduleStoreId;
-            }
-        });
-        // Step 5: Gabungkan data kehadiran ke dalam laporan
         attendances.forEach((attendance) => {
             const userId = attendance.attendanceUserId;
             const attendanceDate = (0, moment_1.default)(attendance.attendanceTime).format('YYYY-MM-DD');
             const key = `${userId}-${attendanceDate}`;
             const reportItem = reportData.get(key);
-            if (reportItem !== undefined) {
+            if (reportItem) {
                 const attendanceCategory = attendance.attendanceCategory;
                 const attendanceTime = attendance.attendanceTime;
                 switch (attendanceCategory) {
@@ -139,7 +131,7 @@ const findAllReportAttendance = async (req, res) => {
                 }
             }
         });
-        // Step 6: Konversi Map menjadi array dan terapkan pagination
+        // Step 4: Konversi Map jadi array + pagination
         const allFormattedData = Array.from(reportData.values());
         const paginatedData = pagination === true
             ? allFormattedData.slice(page.offset, page.offset + page.limit)
@@ -148,7 +140,7 @@ const findAllReportAttendance = async (req, res) => {
             count: allFormattedData.length,
             rows: paginatedData
         }));
-        logger_1.default.info('Fetched and formatted attendance report successfully');
+        logger_1.default.info('Fetched today attendance report successfully');
         return res.status(http_status_codes_1.StatusCodes.OK).json(response);
     }
     catch (error) {
@@ -157,4 +149,4 @@ const findAllReportAttendance = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findAllReportAttendance = findAllReportAttendance;
+exports.findAllRealtimeReport = findAllRealtimeReport;

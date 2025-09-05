@@ -1,6 +1,24 @@
 "use strict";
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     ILocationRequest:
+ *       type: object
+ *       properties:
+ *         latitude:
+ *           type: string
+ *           example: "12.345"
+ *         longitude:
+ *           type: string
+ *           example: "123.456"
+ *       required:
+ *         - latitude
+ *         - longitude
+ *
+ */
+/**
+ * @swagger
  * /api/v1/reports/:
  *   get:
  *     summary: Get all report
@@ -37,4 +55,23 @@
  *     responses:
  *       200:
  *         description: List of report
+ */
+/**
+ * @swagger
+ * /api/v1/reports/locations/realtimes:
+ *   post:
+ *     summary: realtime locations
+ *     tags: [REPORTS]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ILocationRequest'
+ *     responses:
+ *       200:
+ *         description: List of report
+ *
  */
