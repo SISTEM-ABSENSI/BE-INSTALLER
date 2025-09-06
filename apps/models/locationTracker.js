@@ -35,3 +35,7 @@ exports.LocationTrackerModel.belongsTo(user_1.UserModel, {
     foreignKey: 'locationTrackerUserId',
     as: 'user'
 });
+user_1.UserModel.hasOne(exports.LocationTrackerModel, {
+    foreignKey: 'locationTrackerUserId',
+    as: 'locationTracker'
+});

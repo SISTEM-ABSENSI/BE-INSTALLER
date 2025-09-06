@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllRealtimeReport = void 0;
+exports.findAllReportByDay = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const sequelize_1 = require("sequelize");
 const validateRequest_1 = require("../../utilities/validateRequest");
@@ -15,7 +15,7 @@ const attendanceSchema_1 = require("../../schemas/attendanceSchema");
 const pagination_1 = require("../../utilities/pagination");
 const logger_1 = __importDefault(require("../../utilities/logger"));
 const moment_1 = __importDefault(require("moment"));
-const findAllRealtimeReport = async (req, res) => {
+const findAllReportByDay = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(attendanceSchema_1.findAllAttendanceSchema, req.query);
     if (error != null) {
         const message = `Invalid query parameter! ${error.details
@@ -27,11 +27,9 @@ const findAllRealtimeReport = async (req, res) => {
     const { page: queryPage, size: querySize, search, pagination } = value;
     try {
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
-        // Ambil tanggal hari ini
         const today = (0, moment_1.default)().format('YYYY-MM-DD');
         const todayStart = `${today} 00:00:00`;
         const todayEnd = `${today} 23:59:59`;
-        // Step 1: Ambil semua user
         const users = await user_1.UserModel.findAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
@@ -43,7 +41,6 @@ const findAllRealtimeReport = async (req, res) => {
             attributes: ['userId', 'userName']
         });
         const userIds = users.map((user) => user.userId);
-        // Siapkan map untuk report hari ini
         const reportData = new Map();
         users.forEach((user) => {
             const key = `${user.userId}-${today}`;
@@ -61,31 +58,6 @@ const findAllRealtimeReport = async (req, res) => {
                 otoutAt: null
             });
         });
-        // Step 2: Ambil jadwal untuk hari ini
-        const schedules = await scheduleModel_1.ScheduleModel.findAll({
-            where: {
-                deleted: { [sequelize_1.Op.eq]: 0 },
-                scheduleUserId: { [sequelize_1.Op.in]: userIds },
-                ...(Boolean(value?.storeId) && {
-                    scheduleStoreId: value?.storeId
-                }),
-                scheduleStartDate: {
-                    [sequelize_1.Op.between]: [todayStart, todayEnd]
-                }
-            },
-            attributes: ['scheduleUserId', 'scheduleStartDate', 'scheduleStoreId']
-        });
-        schedules.forEach((schedule) => {
-            const userId = schedule.scheduleUserId;
-            const scheduleDate = (0, moment_1.default)(schedule.scheduleStartDate).format('YYYY-MM-DD');
-            const key = `${userId}-${scheduleDate}`;
-            const reportItem = reportData.get(key);
-            if (reportItem) {
-                reportItem.scheduleStartDate = schedule.scheduleStartDate;
-                reportItem.scheduleStoreId = schedule.scheduleStoreId;
-            }
-        });
-        // Step 3: Ambil kehadiran untuk hari ini
         const attendances = await attendanceModel_1.AttendanceModel.findAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
@@ -97,13 +69,31 @@ const findAllRealtimeReport = async (req, res) => {
                     [sequelize_1.Op.between]: [todayStart, todayEnd]
                 }
             },
-            attributes: ['attendanceUserId', 'attendanceCategory', 'attendanceTime']
+            include: [
+                {
+                    model: scheduleModel_1.ScheduleModel,
+                    as: 'schedule',
+                    where: {
+                        scheduleStartDate: {
+                            [sequelize_1.Op.between]: [todayStart, todayEnd]
+                        }
+                    }
+                }
+            ],
+            attributes: [
+                'attendanceUserId',
+                'attendanceCategory',
+                'attendanceTime',
+                'attendanceScheduleId'
+            ]
         });
         attendances.forEach((attendance) => {
             const userId = attendance.attendanceUserId;
             const attendanceDate = (0, moment_1.default)(attendance.attendanceTime).format('YYYY-MM-DD');
             const key = `${userId}-${attendanceDate}`;
             const reportItem = reportData.get(key);
+            reportItem.scheduleStartDate = attendance.schedule?.scheduleStartDate;
+            reportItem.scheduleStoreId = attendance.schedule?.scheduleStoreId;
             if (reportItem) {
                 const attendanceCategory = attendance.attendanceCategory;
                 const attendanceTime = attendance.attendanceTime;
@@ -131,7 +121,6 @@ const findAllRealtimeReport = async (req, res) => {
                 }
             }
         });
-        // Step 4: Konversi Map jadi array + pagination
         const allFormattedData = Array.from(reportData.values());
         const paginatedData = pagination === true
             ? allFormattedData.slice(page.offset, page.offset + page.limit)
@@ -149,4 +138,4 @@ const findAllRealtimeReport = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response_1.ResponseData.error(message));
     }
 };
-exports.findAllRealtimeReport = findAllRealtimeReport;
+exports.findAllReportByDay = findAllReportByDay;
