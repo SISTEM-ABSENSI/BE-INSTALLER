@@ -32,10 +32,10 @@ exports.EmployeeLocationModel = index_1.sequelize.define('EmployeeLocation', {
     freezeTableName: true
 });
 exports.EmployeeLocationModel.belongsTo(user_1.UserModel, {
-    foreignKey: 'employeeLocationId',
+    foreignKey: 'employeeLocationUserId',
     as: 'user'
 });
 user_1.UserModel.hasOne(exports.EmployeeLocationModel, {
-    foreignKey: 'employeeLocationId',
+    foreignKey: 'employeeLocationUserId',
     as: 'employeeLocation'
 });

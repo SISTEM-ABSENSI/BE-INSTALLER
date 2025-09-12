@@ -12,6 +12,8 @@ const pagination_1 = require("../../utilities/pagination");
 const user_1 = require("../../models/user");
 const employeeSchema_1 = require("../../schemas/employeeSchema");
 const employeeLocation_1 = require("../../models/employeeLocation");
+const moment_1 = __importDefault(require("moment"));
+const sequelize_1 = require("sequelize");
 const findAllEmployeeLocation = async (req, res) => {
     const { error, value } = (0, validateRequest_1.validateRequest)(employeeSchema_1.findAllEmployeeLocationSchema, req.query);
     if (error != null) {
@@ -22,9 +24,15 @@ const findAllEmployeeLocation = async (req, res) => {
     try {
         const { page: queryPage, size: querySize, pagination } = value;
         const page = new pagination_1.Pagination(parseInt(queryPage) ?? 0, parseInt(querySize) ?? 10);
+        const today = (0, moment_1.default)().format('YYYY-MM-DD');
+        const todayStart = `${today} 00:00:00`;
+        const todayEnd = `${today} 23:59:59`;
         const result = await employeeLocation_1.EmployeeLocationModel.findAndCountAll({
             where: {
-                deleted: 0
+                deleted: 0,
+                createdAt: {
+                    [sequelize_1.Op.between]: [todayStart, todayEnd]
+                }
             },
             include: [
                 {
